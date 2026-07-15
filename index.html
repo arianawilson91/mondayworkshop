@@ -170,6 +170,7 @@
     <button class="tab" data-t="pro">&#128179; Get Claude Pro <span class="progress" id="proProg"></span></button>
     <button class="tab" data-t="cw">&#128421;&#65039; Meet Cowork <span class="progress" id="cwProg"></span></button>
     <button class="tab" data-t="me">&#128075; Your Business</button>
+    <button class="tab" data-t="docs">&#128196; Context Docs</button>
     <button class="tab" data-t="play">&#9889; Your Playbook</button>
     <button class="tab" data-t="tasks">&#129520; Task Menu</button>
     <button class="tab" data-t="home">&#127968; Homework</button>
@@ -260,6 +261,17 @@
     </div>
   </section>
 
+  <!-- ============ CONTEXT DOCS ============ -->
+  <section class="panel" id="p-docs">
+    <h2>Your Claude Context Document</h2>
+    <p class="note">We researched every organization in the room and wrote each one a <b>Claude Context Document</b> - a ready-made business profile covering who you are, what you offer, who you serve, your voice, and your key people. <b>Find yours below, download it, and give it to Claude:</b> start a new chat, attach the file (or paste its contents), and say <i>"This is my business - remember it for this conversation."</i> Review it and fix anything we got wrong - you know your business best. It pairs perfectly with the prompts in Your Playbook.</p>
+    <div id="docsGrid"></div>
+    <div class="card">
+      <b>Don't see your organization?</b>
+      <p class="note" style="margin:6px 0 0">Community members and late registrations: fill in the Your Business tab and run Prompt #1 from your playbook instead - it does the same job in chat form. Want a full written doc like these? Ask us and we'll make you one after the workshop.</p>
+    </div>
+  </section>
+
   <!-- ============ PLAYBOOK ============ -->
   <section class="panel" id="p-play">
     <h2>Your personalized playbook</h2>
@@ -324,7 +336,7 @@
     t.addEventListener('click',function(){
       tabs.forEach(function(x){x.classList.remove('on');});
       t.classList.add('on');
-      ['start','pro','cw','me','play','tasks','home'].forEach(function(p){
+      ['start','pro','cw','me','docs','play','tasks','home'].forEach(function(p){
         el('p-'+p).classList.toggle('on', t.dataset.t===p);
       });
       if(t.dataset.t==='play') renderPlay();
@@ -557,6 +569,30 @@
     }).join('');
   }
   renderTaskChips(); renderTasks();
+
+  /* ---------- context docs ---------- */
+  var DOCS=[
+    {org:'Sanibel-Captiva Conservation Foundation (SCCF)', who:'AJ Martignette, Beka Wade, James Evans, Kelly Sloan, Matt DePaolis', f:'sccf.docx'},
+    {org:'CROW - Clinic for the Rehabilitation of Wildlife', who:'Meridith Darnell', f:'crow.docx'},
+    {org:'FISH of San-Cap', who:'Simon Robson', f:'fish-of-san-cap.docx'},
+    {org:'Sanibel & Captiva Islands Chamber of Commerce', who:'John Lai', f:'sancap-chamber.docx'},
+    {org:'City of Sanibel', who:'Denise M. Dillon', f:'city-of-sanibel.docx'},
+    {org:'The Santiva Islanders', who:'Bernard Arroyo', f:'santiva-islanders.docx'},
+    {org:'Her Sports Closet', who:'Renae Durand, Cassidy Burns', f:'her-sports-closet.docx'},
+    {org:'San-Cap Sea Salt Co.', who:'Christopher Cain', f:'san-cap-sea-salt.docx'},
+    {org:'AIP Outfitters (Adventures in Paradise)', who:'Josh Stewart', f:'aip-outfitters.docx'},
+    {org:'Cottages to Castles of Sanibel & Captiva', who:'Sharon Michie', f:'cottages-to-castles.docx'},
+    {org:'A Little Adventure', who:'Audrey Stewart', f:'a-little-adventure.docx'},
+    {org:'Trailways Camps', who:'Jamie Senkeleski', f:'trailways-camps.docx'},
+    {org:'IMAG History & Science Center', who:'Kelli King', f:'imag.docx'},
+    {org:"Saint Michael & All Angels Episcopal Church", who:'Sue Van Oss', f:'saint-michaels.docx'},
+    {org:'Castleton Capital', who:'Doug Congress', f:'castleton-capital.docx'}
+  ];
+  el('docsGrid').innerHTML = DOCS.map(function(d){
+    return '<div class="card taskcard" style="border-left-color:var(--blue)"><h3>'+esc(d.org)+'</h3>'
+      +'<p class="tbring"><b>For:</b> '+esc(d.who)+'</p>'
+      +'<a class="steplink" href="context-docs/'+esc(d.f)+'" download>&#11015; Download your context doc (.docx)</a></div>';
+  }).join('');
 
   /* ---------- global copy handler ---------- */
   document.addEventListener('click',function(e){
