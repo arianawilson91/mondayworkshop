@@ -1,27 +1,23 @@
-<title>July 20 Workshop &#8212; Interactive Kit</title>
+<title>Claude for Business Workshop &#8212; July 20</title>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@1,500&display=swap" rel="stylesheet">
 <style>
   /* Ain Hub brand kit v2.1 - FGCU Green/Blue, Hub Cream, Highlight Lime, Deep Navy hairlines */
   :root{
-    --bg:#F0EBE0;             /* Hub Cream - the canvas */
+    --bg:#F0EBE0;
     --bg2:#E9E3D5;
     --card:#ffffff;
     --ink:#13161D;
     --dim:#4d525c;
-    --line:rgba(10,33,103,.16);  /* Deep Navy - hairlines only */
-    --green:#009366;          /* FGCU Green */
-    --blue:#004685;           /* FGCU Blue */
-    --lime:#5BC95E;           /* Highlight Lime - CTAs & accent */
+    --line:rgba(10,33,103,.16);
+    --green:#009366;
+    --blue:#004685;
+    --lime:#5BC95E;
     --limesoft:rgba(91,201,94,.22);
     --navy:#0A2167;
-    --accent:var(--green);
-    --accent-dk:#00694a;
-    --sun:var(--lime);
-    --sunsoft:var(--limesoft);
-    --leaf:var(--green);
   }
   *{box-sizing:border-box}
   html,body{margin:0}
+  html{background:#F0EBE0}
   body{
     background:linear-gradient(160deg,var(--bg) 0%,var(--bg) 60%,var(--bg2) 100%);
     min-height:100vh;
@@ -29,7 +25,7 @@
     font:15px/1.55 'DM Sans',system-ui,-apple-system,"Segoe UI",sans-serif;
     padding:30px 20px 80px;
   }
-  .wrap{max-width:980px;margin:0 auto}
+  .wrap{max-width:940px;margin:0 auto}
   .logo{width:112px;height:auto;display:block;margin:0 0 2px -8px}
   .badge{
     display:inline-block;background:var(--blue);color:#F0EBE0;
@@ -38,21 +34,20 @@
   h1{
     font-family:Anton,Impact,'Arial Narrow Bold',sans-serif;font-weight:400;
     text-transform:uppercase;letter-spacing:.04em;color:var(--blue);
-    font-size:46px;line-height:1.05;margin:14px 0 8px;text-wrap:balance;
+    font-size:44px;line-height:1.05;margin:14px 0 8px;text-wrap:balance;
   }
   .hl{color:var(--green)}
   .lede{color:var(--dim);max-width:64ch;margin:0 0 24px}
 
-  /* tabs */
   .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 26px}
   .tab{
     background:var(--card);border:2px solid var(--line);color:var(--dim);
     border-radius:24px;padding:9px 18px;font-size:13.5px;font-weight:700;cursor:pointer;
   }
-  .tab:hover{border-color:var(--accent);color:var(--ink)}
+  .tab:hover{border-color:var(--lime);color:var(--ink)}
   .tab.on{background:var(--green);border-color:var(--green);color:#fff}
-  .tab:hover{border-color:var(--lime)}
-  .tab:focus-visible,button:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
+  .tab.on .progress{color:#fff}
+  .tab:focus-visible,button:focus-visible,input[type=checkbox]:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
 
   .panel{display:none}
   .panel.on{display:block}
@@ -62,22 +57,27 @@
     font-size:25px;line-height:1.15;margin:0 0 6px;
   }
   .note{color:var(--dim);font-size:13.5px;margin:0 0 18px;max-width:66ch}
-
   .card{
     background:var(--card);border:1px solid var(--line);border-radius:14px;
     padding:20px 22px;margin-bottom:14px;
   }
 
-  /* agenda */
+  /* today's plan */
   .agrow{display:flex;gap:16px;padding:13px 4px;border-bottom:1px dashed var(--line);align-items:baseline}
   .agrow:last-child{border-bottom:none}
-  .agtime{
-    font-variant-numeric:tabular-nums;font-weight:800;color:var(--accent);
-    min-width:86px;font-size:13.5px;letter-spacing:.04em;
-  }
+  .agtime{font-variant-numeric:tabular-nums;font-weight:800;color:var(--green);min-width:86px;font-size:13.5px;letter-spacing:.04em}
   .agrow b{display:block;font-size:15px}
   .agrow p{margin:2px 0 0;color:var(--dim);font-size:13.5px}
-  .agtag{font-size:10.5px;font-weight:800;letter-spacing:.1em;color:var(--leaf)}
+
+  /* step checklists */
+  ol.steps{list-style:none;margin:0;padding:0}
+  ol.steps li{display:flex;gap:14px;padding:14px 0;border-bottom:1px dashed var(--line);align-items:flex-start}
+  ol.steps li:last-child{border-bottom:none}
+  ol.steps input[type=checkbox]{width:22px;height:22px;accent-color:var(--green);flex:none;margin-top:2px;cursor:pointer}
+  ol.steps b{display:block;font-size:15px}
+  ol.steps li.done b{color:var(--dim);text-decoration:line-through;text-decoration-color:var(--green);text-decoration-thickness:2px}
+  ol.steps p{margin:2px 0 0;color:var(--dim);font-size:13.5px}
+  .progress{font-size:12px;font-weight:800;color:var(--green);letter-spacing:.06em;margin-left:6px}
 
   /* forms */
   label{display:block;font-weight:700;font-size:13px;margin:14px 0 5px}
@@ -86,7 +86,7 @@
     width:100%;border:2px solid var(--line);border-radius:10px;padding:10px 12px;
     font:inherit;font-size:14px;color:var(--ink);background:var(--card);
   }
-  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent)}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--green)}
   textarea{min-height:64px;resize:vertical}
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 18px}
   @media (max-width:640px){ .grid2{grid-template-columns:1fr} }
@@ -98,41 +98,19 @@
   .btn.ghost{background:transparent;color:var(--blue);border:2px solid var(--line);font-weight:700;border-radius:24px}
   .btn.ghost:hover{border-color:var(--green);color:var(--green);background:transparent}
   .btn.small{padding:7px 14px;font-size:12.5px;margin-top:0}
-  .btn.danger{background:transparent;border:2px solid var(--line);color:#b5544a}
-  .btn.danger:hover{border-color:#b5544a;background:transparent}
 
-  /* roster */
-  .bizgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-bottom:20px}
-  .bizcard{
-    background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 18px 14px;
-    position:relative;
-  }
-  .bizcard h3{margin:0 0 2px;font-size:17px}
-  .bizcard .ind{color:var(--dim);font-size:12.5px;margin:0 0 10px}
-  .pillrow{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
   .pill{font-size:11px;font-weight:800;letter-spacing:.05em;border-radius:14px;padding:3px 10px}
-  .pill.ok{background:rgba(0,147,102,.14);color:var(--green)}
-  .pill.todo{background:var(--limesoft);color:var(--blue)}
-  .bizcard .row{display:flex;gap:8px;flex-wrap:wrap}
-  .empty{
-    border:2px dashed var(--line);border-radius:14px;padding:34px 24px;text-align:center;color:var(--dim);
-  }
+  .pill.cat{background:var(--limesoft);color:var(--blue)}
+  .pill.time{background:var(--bg);color:var(--dim);border:1px solid var(--line)}
+
+  .empty{border:2px dashed var(--line);border-radius:14px;padding:34px 24px;text-align:center;color:var(--dim)}
   .empty b{display:block;color:var(--ink);font-size:16px;margin-bottom:4px}
 
-  /* discovery */
-  .qcard{border-left:4px solid var(--blue)}
-  .ask{
-    font-size:12px;color:var(--dim);background:var(--bg);border-radius:8px;
-    padding:8px 12px;margin:6px 0 0;
-  }
-  .ask b{color:var(--blue)}
-  select.bizpick{max-width:360px;font-weight:700}
-
-  /* playbook */
-  .pb{border-left:4px solid var(--leaf)}
+  /* playbook + copy blocks */
+  .pb{border-left:4px solid var(--green)}
   .pb h3{margin:0 0 2px;font-size:15px;display:flex;align-items:center;gap:8px}
   .pb .tagno{
-    background:var(--leaf);color:#fff;border-radius:50%;width:24px;height:24px;
+    background:var(--green);color:#fff;border-radius:50%;width:24px;height:24px;
     display:inline-flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:800;flex:none;
   }
   .pb p.meta{color:var(--dim);font-size:12.5px;margin:0 0 10px}
@@ -140,16 +118,13 @@
     background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:13px 15px;
     font-size:14px;white-space:pre-wrap;margin:0 0 10px;
   }
-  .copied{color:var(--leaf);font-weight:800;font-size:12px;margin-left:10px}
+  .copied{color:var(--green);font-weight:800;font-size:12px;margin-left:10px}
   ul.bring{margin:6px 0 0;padding-left:20px;font-size:14px}
   ul.bring li{margin-bottom:4px}
 
   .checks{list-style:none;margin:8px 0 0;padding:0;font-size:14.5px}
   .checks li{padding:7px 0;border-bottom:1px dashed var(--line)}
-  .checks li::before{content:"\2713  ";color:var(--leaf);font-weight:800}
-
-  .footer{margin-top:34px;color:var(--dim);font-size:12px;text-align:center}
-  .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:18px}
+  .checks li::before{content:"\2713  ";color:var(--green);font-weight:800}
 
   /* task menu */
   .fchips{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px}
@@ -157,141 +132,148 @@
     background:var(--card);border:2px solid var(--line);color:var(--dim);
     border-radius:18px;padding:6px 14px;font-size:12.5px;font-weight:700;cursor:pointer;
   }
-  .fchip:hover{border-color:var(--accent);color:var(--ink)}
+  .fchip:hover{border-color:var(--green);color:var(--ink)}
   .fchip.on{background:var(--blue);border-color:var(--blue);color:#F0EBE0}
   .taskcard{border-left:4px solid var(--lime)}
   .taskcard h3{margin:0 0 6px;font-size:16px}
   .tmeta{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 10px}
-  .tmeta .pill.cat{background:var(--limesoft);color:var(--blue)}
-  .tmeta .pill.time{background:var(--bg);color:var(--dim);border:1px solid var(--line)}
   .tbring{font-size:12.5px;color:var(--dim);margin:0 0 10px}
   .tbring b{color:var(--ink)}
+
+  .footer{margin-top:34px;color:var(--dim);font-size:12px;text-align:center}
 </style>
 
 <div class="wrap">
   <img class="logo" alt="Ain Hub" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAxNjAgMTYwIj4KICA8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMjkuNy4xLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogMi4xLjEgQnVpbGQgOCkgIC0tPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuc3QwIHsKICAgICAgICBzdHJva2Utd2lkdGg6IC43NXB4OwogICAgICB9CgogICAgICAuc3QwLCAuc3QxIHsKICAgICAgICBmaWxsOiAjMDA5MzY2OwogICAgICAgIHN0cm9rZTogIzAwOTM2NjsKICAgICAgfQoKICAgICAgLnN0MCwgLnN0MSwgLnN0MiB7CiAgICAgICAgc3Ryb2tlLW1pdGVybGltaXQ6IDEwOwogICAgICB9CgogICAgICAuc3QxIHsKICAgICAgICBzdHJva2Utd2lkdGg6IDJweDsKICAgICAgfQoKICAgICAgLnN0MiB7CiAgICAgICAgZmlsbDogIzAwNzc0NzsKICAgICAgICBzdHJva2U6ICMwMDA7CiAgICAgICAgc3Ryb2tlLXdpZHRoOiAuMjVweDsKICAgICAgfQoKICAgICAgLnN0MyB7CiAgICAgICAgZmlsbDogIzAwNDY4NTsKICAgICAgfQogICAgPC9zdHlsZT4KICA8L2RlZnM+CiAgPHBhdGggY2xhc3M9InN0MyIgZD0iTTkwLjM1LDUzLjU4djE2LjI0YzQuNi00LjE3LDEwLjgyLTQuNDcsMTUuNTQtLjMyLDYuMTksNS40MywzLjAxLDE5LjAxLDMuNzgsMjYuNjYuNTIsNS4zLDUuODEsNy45NiwxMC4yNiw1LjA5LDEuMTQtLjc0LDIuODQtMy4wNywyLjg0LTQuNDN2LTQzLjI1aDYuMjJ2MTUuNThjMS4yNS0uNDUsMi4xMS0xLjQ2LDMuMzctMi4wNSwxMS4wNC01LjA5LDIyLjEyLDYuMDMsMTkuMzksMTcuMzEtMi4wNiw4LjU1LTEwLjksMTMuMjUtMTkuMTUsMTAuNzUtMS4xNy0uMzUtMi4xNi0xLjA4LTMuMjktMS40OC40Myw1LjktMi4yNiwxMS42Mi03Ljk2LDEzLjY0LTUuNywyLjAzLTEzLjE1LjUyLTE2LjMzLTQuOC0zLjY0LTYuMDYtMS4xOS0xNy4xLTEuOS0yNC4yNi0uNDUtNC41Ni0zLjkxLTYuNTUtOC4yMS01LjY2LTIuMDEuNDEtNC41NywyLjkzLTQuNTcsNC45OHYxMi40M2gtNi4yMnYtMzYuNDZoNi4yMnYuMDNzLjAxLDAsLjAxLDBaTTEzMS40MSw4Ny42YzIuNTIsMi42OCw2LjkyLDMuNCwxMC4wMiwxLjI1LDguNjQtNS45OSwyLjQ4LTIxLjA3LTcuODYtMTYuMjQtNS4zNiwyLjUtNi4wNiwxMC44Mi0yLjE2LDE0Ljk4aDBaIi8+CiAgPHBhdGggY2xhc3M9InN0MSIgZD0iTTI3Ljg2LDg4LjUzbC4wMy01Ljg5Yy0xLjAzLDEuMjMtMy4wNywzLjczLTQuNTIsNC40MnMtMi41OSwxLjE0LTQuMjcsMS4xNGMtMi4xMSwwLTQuMDcuMS01Ljc4LS45M3MtMy4wNS0yLjQ2LTQuMDMtNC4yOGMtLjk4LTEuODItMS40Ny0zLjg2LTEuNDctNi4wOXMuNTMtNC4yNiwxLjU3LTYuMDljMS4wNS0xLjgyLDIuNS0zLjI1LDQuMzUtNC4zczMuOS0xLjU3LDYuMTQtMS41Nyw0LjI4LjUyLDYuMTEsMS41N2MxLjgyLDEuMDUsMy4yNywyLjQ4LDQuMzQsNC4zczEuNiwzLjg2LDEuNiw2LjA5bC0uMDUsMTEuNjNzLTQuMDIsMC00LjAyLDBaTTIzLjg2LDgzLjljMS4xOC0uNywyLjExLTEuNjUsMi43OS0yLjg4LjY3LTEuMjIsMS4wMS0yLjU5LDEuMDEtNC4xcy0uMzQtMi44OS0xLjAxLTQuMTItMS42LTIuMi0yLjc5LTIuOWMtMS4xOC0uNy0yLjUtMS4wNS0zLjk3LTEuMDVzLTIuNzkuMzUtMy45NywxLjA1Yy0xLjE4LjcxLTIuMTEsMS42Ny0yLjgsMi45LS42OCwxLjIzLTEuMDMsMi42MS0xLjAzLDQuMTJzLjM1LDIuODksMS4wMyw0LjFjLjY4LDEuMjIsMS42MiwyLjE4LDIuOCwyLjg4LDEuMTguNzEsMi41LDEuMDUsMy45NywxLjA1czIuNzktLjM1LDMuOTctMS4wNVoiLz4KICA8cmVjdCBjbGFzcz0ic3QxIiB4PSIzOS4yNiIgeT0iNjUuNSIgd2lkdGg9IjQuNTgiIGhlaWdodD0iMjIuODgiLz4KICA8cGF0aCBjbGFzcz0ic3QwIiBkPSJNNzAuNTYsODkuNTJjLjEtNC4xNS0uMTctOC45Ny0uNTEtMTIuMzMtLjQ2LTQuNTEtNC4wMS02LjQ5LTguNDMtNS42MS0yLjA1LjQxLTQuNjksMi4xOS00LjY5LDQuMjN2MTMuNDRoLTYuMzlsLS4xNy0yNC4zMWg2LjM5bC4xNywzLjg3YzQuNzItNC4xNCwxMS4xMS00LjQzLDE1Ljk3LS4zMnMzLjgzLDEzLjcxLDMuNzIsMjEuMDVoLTYuMDZ2LS4wMmgwWiIvPgogIDxwb2x5Z29uIGNsYXNzPSJzdDMiIHBvaW50cz0iNDYuMTIgNTkuMzkgNDEuNTQgNjEuOTIgMzYuOTcgNTkuMzkgMzYuOTcgNTQuMzUgNDEuNTQgNTEuODIgNDYuMTIgNTQuMzUgNDYuMTIgNTkuMzkiLz4KICA8cGF0aCBjbGFzcz0ic3QyIiBkPSJNNzYuMjUsODguNzIiLz4KICA8cGF0aCBjbGFzcz0ic3QyIiBkPSJNMjYuMTgsODkuNTIiLz4KPC9zdmc+">
-  <span class="badge">MONDAY, JULY 20 &#183; INTERACTIVE KIT</span>
+  <span class="badge">MONDAY, JULY 20 &#183; WORKSHOP COMPANION</span>
   <h1>The <span class="hl">Claude for Business</span> Workshop</h1>
-  <p class="lede">Your live facilitation tool. Add each business, run a quick client discovery with them, and this page builds a <b>personalized Claude playbook</b> for every single one &#8212; tailored prompts, a custom first Cowork task, and what files to bring. Everything saves in this browser automatically.</p>
+  <p class="lede">Welcome! Keep this page open on your laptop for the whole session &#8212; it's yours. Check off steps as you go, tell it about <b>your</b> business, and it will build you a personalized Claude playbook you take home. Everything you type saves on your own device automatically.</p>
 
   <div class="tabs" role="tablist">
-    <button class="tab on" data-t="agenda">&#128197; Run of Show</button>
-    <button class="tab" data-t="biz">&#127970; Businesses <span id="bizcount"></span></button>
-    <button class="tab" data-t="disc">&#128269; Discovery</button>
-    <button class="tab" data-t="play">&#9889; Playbooks</button>
-    <button class="tab" data-t="tasks">&#129520; Cowork Tasks</button>
-    <button class="tab" data-t="wrap">&#127937; Wrap-up</button>
+    <button class="tab on" data-t="start">&#127793; Start Here</button>
+    <button class="tab" data-t="pro">&#128179; Get Claude Pro <span class="progress" id="proProg"></span></button>
+    <button class="tab" data-t="cw">&#128421;&#65039; Meet Cowork <span class="progress" id="cwProg"></span></button>
+    <button class="tab" data-t="me">&#128075; Your Business</button>
+    <button class="tab" data-t="play">&#9889; Your Playbook</button>
+    <button class="tab" data-t="tasks">&#129520; Task Menu</button>
+    <button class="tab" data-t="home">&#127968; Homework</button>
   </div>
 
-  <!-- ================= AGENDA ================= -->
-  <section class="panel on" id="p-agenda">
-    <h2>Run of show &#8212; 90 minutes</h2>
-    <p class="note">Times assume a 90-minute session. Slide the whole thing earlier or later; the proportions are what matter. The mock walkthrough video is your Wi-Fi-died backup for parts 1&#8211;2.</p>
+  <!-- ============ START ============ -->
+  <section class="panel on" id="p-start">
+    <h2>Welcome &#8212; here's how today works</h2>
+    <p class="note">By the end of this session you'll have a working Claude Pro account, you'll have watched Claude do real work on real files, and you'll leave with a playbook built for your business specifically. Work at your own pace &#8212; this page won't rush you.</p>
     <div class="card">
-      <div class="agrow"><span class="agtime">0:00&#8211;0:10</span><div><b>Welcome + why Claude</b><p>Intros. Each owner says their business name and their #1 time-sink &#8212; write these down, you'll reuse them in Discovery.</p></div></div>
-      <div class="agrow"><span class="agtime">0:10&#8211;0:25</span><div><b>Part 1 &#8212; Everyone gets Claude Pro</b><p>Play or present the walkthrough (slides 2&#8211;8). Everyone signs up on their own laptop. Payment on personal devices only, never the projector.</p></div></div>
-      <div class="agrow"><span class="agtime">0:25&#8211;0:35</span><div><b>Shared first prompt</b><p>Whole room runs the same prompt: <i>"I run a small business. Give me 3 ways I could use you every week, with one example prompt for each."</i></p></div></div>
-      <div class="agrow"><span class="agtime">0:35&#8211;0:55</span><div><b>Part 2 &#8212; Meet Cowork</b><p>Walkthrough slides 9&#8211;14, then live demo with the Brand Content practice folder. One volunteer's laptop on the projector (not the payment screen!).</p></div></div>
-      <div class="agrow"><span class="agtime">0:55&#8211;1:25</span><div><b>Client discovery + playbooks <span class="agtag">&#8592; THIS TOOL</span></b><p>Sit with each business (or pair them up). Run the Discovery tab together (~5 min each), then open their Playbook and have them run tailored prompt #1 live before you move to the next table.</p></div></div>
-      <div class="agrow"><span class="agtime">1:25&#8211;1:30</span><div><b>Wrap-up + homework</b><p>Wrap-up tab on the projector. Everyone leaves with one homework task tied to their own playbook.</p></div></div>
+      <div class="agrow"><span class="agtime">Part 1</span><div><b>Get Claude Pro set up</b><p>The "Get Claude Pro" tab walks you through it, step by step, with checkboxes.</p></div></div>
+      <div class="agrow"><span class="agtime">Part 2</span><div><b>Meet Cowork</b><p>Claude's do-tasks-with-your-files mode. We'll demo it together, then you'll run one yourself.</p></div></div>
+      <div class="agrow"><span class="agtime">Part 3</span><div><b>Your business, your playbook</b><p>Answer six quick questions about your business and get tailored prompts + a homework task built just for you.</p></div></div>
+      <div class="agrow"><span class="agtime">Anytime</span><div><b>The Task Menu</b><p>Twelve copy-paste Cowork tasks. Browse whenever &#8212; this site stays up after the workshop too.</p></div></div>
     </div>
     <div class="card">
-      <b>Before Monday</b>
+      <b>What you need today</b>
       <ul class="checks">
-        <li>Add every registered business in the Businesses tab (or import them when you get the list)</li>
-        <li>Walkthrough + video queued on the presenter machine</li>
-        <li>Brand Content practice folder zipped and shared with attendees</li>
-        <li>Attendees told: bring a laptop, your email login, and a card for the $20 Pro signup</li>
+        <li>This laptop + access to your email inbox</li>
+        <li>A card for the $20/month Pro plan (entered privately on your own screen)</li>
+        <li>15 minutes of honesty about where your week actually goes</li>
       </ul>
+      <p class="note" style="margin:12px 0 0">Want a preview of every step first? <a href="walkthrough.html" style="color:var(--blue);font-weight:700">Watch the 2-minute walkthrough &#8594;</a></p>
     </div>
   </section>
 
-  <!-- ================= BUSINESSES ================= -->
-  <section class="panel" id="p-biz">
-    <h2>Businesses</h2>
-    <p class="note">Add each business you'll be teaching &#8212; a name and industry is enough to start. The rest gets filled in during Discovery. Data saves in this browser; use Export before switching computers.</p>
-
-    <div class="toolbar">
-      <button class="btn small ghost" id="exportBtn">&#11123; Export list</button>
-      <button class="btn small ghost" id="importBtn">&#11121; Import / paste list</button>
-      <span id="exportMsg" class="copied"></span>
+  <!-- ============ GET PRO ============ -->
+  <section class="panel" id="p-pro">
+    <h2>Part 1 &#8212; Get Claude Pro</h2>
+    <p class="note">Check each step off as you finish it. Stuck at any point? Raise a hand &#8212; that's what we're here for.</p>
+    <div class="card"><ol class="steps" id="proSteps"></ol></div>
+    <div class="card pb">
+      <h3><span class="tagno">&#9889;</span>Your first real prompt</h3>
+      <p class="meta">Copy this, paste it into Claude, and read what comes back. We'll compare answers around the room.</p>
+      <div class="prompttext">I run a small business. Give me 3 ways I could use you every week, with one example prompt for each.</div>
+      <button class="btn small ghost" data-copy>&#128203; Copy prompt</button><span class="copied"></span>
     </div>
-    <div class="card" id="importBox" style="display:none">
-      <label>Paste an exported list (JSON) or one business per line as: <span class="hint">Name, Industry, Owner &#8212; e.g. "Pud's Pit BBQ, Food &amp; Beverage, Marcus"</span></label>
-      <textarea id="importText" rows="5" placeholder='[{"name":"..."}]  or  one per line'></textarea>
-      <button class="btn small" id="importGo">Import</button>
-      <span id="importMsg" class="copied"></span>
-    </div>
+  </section>
 
-    <div class="bizgrid" id="bizgrid"></div>
-    <div class="empty" id="bizempty">
-      <b>No businesses yet</b>
-      Add your first one below &#8212; or import the list when registrations come in.
+  <!-- ============ COWORK ============ -->
+  <section class="panel" id="p-cw">
+    <h2>Part 2 &#8212; Meet Cowork</h2>
+    <p class="note">Chat answers questions. <b>Cowork does tasks</b> &#8212; it works directly with real files in a folder you choose, and it's included in the Pro plan you just set up. It can only see folders you grant, and it always asks before deleting anything.</p>
+    <div class="card"><ol class="steps" id="cwSteps"></ol></div>
+    <div class="card pb">
+      <h3><span class="tagno">&#9889;</span>The demo task</h3>
+      <p class="meta">Once the practice folder is added, paste this into Cowork and approve the plan it shows you.</p>
+      <div class="prompttext">Look at the photos in this folder and my product list. Build me a one-month Instagram content calendar as an Excel file - one row per post with the date, which photo to use, a caption in my brand voice, and hashtags.</div>
+      <button class="btn small ghost" data-copy>&#128203; Copy task</button><span class="copied"></span>
     </div>
+  </section>
 
-    <div class="card" id="bizform">
-      <h2 style="font-size:19px" id="formTitle">Add a business</h2>
+  <!-- ============ YOUR BUSINESS ============ -->
+  <section class="panel" id="p-me">
+    <h2>Part 3 &#8212; Tell us about your business</h2>
+    <p class="note">Answer like you're telling a friend, not writing a brochure &#8212; specific beats polished. Every answer feeds straight into your playbook, and it saves as you type.</p>
+    <div class="card">
       <div class="grid2">
-        <div><label>Business name</label><input type="text" id="f-name" placeholder="Pud's Pit BBQ"></div>
-        <div><label>Owner / attendee</label><input type="text" id="f-owner" placeholder="Marcus"></div>
+        <div><label>Your business name</label><input type="text" data-k="name" placeholder="Pud's Pit BBQ"></div>
         <div><label>Industry</label>
-          <select id="f-industry">
+          <select data-k="industry">
+            <option></option>
             <option>Food &amp; Beverage</option><option>Retail / E-commerce</option>
             <option>Home &amp; Trade Services</option><option>Beauty &amp; Wellness</option>
             <option>Fitness</option><option>Real Estate</option><option>Creative / Design</option>
             <option>Professional Services</option><option>Nonprofit</option><option>Education</option><option>Other</option>
           </select>
         </div>
-        <div><label>Tech comfort</label>
-          <select id="f-tech"><option value="1">&#128013; Beginner &#8212; go slow</option><option value="2" selected>&#128019; Average &#8212; fine with apps</option><option value="3">&#128640; Confident &#8212; will race ahead</option></select>
-        </div>
       </div>
-      <button class="btn" id="saveBiz">Save business</button>
-      <button class="btn ghost" id="cancelEdit" style="display:none">Cancel</button>
+      <label>What do you sell, in one sentence? <span class="hint">If I was a customer, what am I actually buying from you?</span></label>
+      <textarea data-k="sells" placeholder="Slow-smoked BBQ plates and catering for events"></textarea>
+      <label>Who buys it? <span class="hint">Describe your favorite regular &#8212; a specific person beats demographics.</span></label>
+      <textarea data-k="customers" placeholder="Families and office lunch crowds in Fort Myers; catering for parties of 20-100"></textarea>
+      <label>Where does your computer time actually go? <span class="hint">Think about last week. What made you sigh?</span></label>
+      <select data-k="timesink">
+        <option></option>
+        <option>Social media &amp; marketing</option><option>Emails &amp; admin</option>
+        <option>Bookkeeping &amp; receipts</option><option>Scheduling &amp; clients</option>
+        <option>Files &amp; paperwork chaos</option><option>Proposals, quotes &amp; documents</option>
+      </select>
+      <label>Tell us more about that time-sink <span class="hint">How often? What does it look like? One concrete example.</span></label>
+      <textarea data-k="detail" placeholder="Posts 3x a week, takes an hour each because captions are hard; photos live in 4 different places"></textarea>
+      <label>What folder on your computer is the messiest but most important? <span class="hint">This becomes your Cowork homework.</span></label>
+      <textarea data-k="files" placeholder="A receipts folder on the desktop; photos on my phone; price list in an old Word doc"></textarea>
+      <label>What's the dream win this quarter? <span class="hint">If this workshop actually works, what looks different by October?</span></label>
+      <textarea data-k="goal" placeholder="Book 2 more catering gigs a month without hiring anyone"></textarea>
+      <button class="btn" id="toPlay">&#9889; Build my playbook &#8594;</button>
     </div>
   </section>
 
-  <!-- ================= DISCOVERY ================= -->
-  <section class="panel" id="p-disc">
-    <h2>Client discovery</h2>
-    <p class="note">Sit with the owner and fill this in together &#8212; about 5 minutes. The gray boxes are your facilitator script. Every answer feeds their playbook directly, so specific beats polished.</p>
-    <label style="margin-top:0">Business</label>
-    <select class="bizpick" id="discPick"></select>
-    <div id="discBody" style="margin-top:16px"></div>
-  </section>
-
-  <!-- ================= PLAYBOOKS ================= -->
+  <!-- ============ PLAYBOOK ============ -->
   <section class="panel" id="p-play">
-    <h2>Personalized playbooks</h2>
-    <p class="note">Generated live from each discovery. Put this on the projector when you sit with a business, have them run Prompt #1 in Claude right then, and send them home with the Cowork task as homework.</p>
-    <label style="margin-top:0">Business</label>
-    <select class="bizpick" id="playPick"></select>
-    <div id="playBody" style="margin-top:16px"></div>
+    <h2>Your personalized playbook</h2>
+    <p class="note">Built from your answers, for your business. Run Prompt #1 right now &#8212; then take the rest home. If you update your answers, the playbook updates too.</p>
+    <div id="playBody"></div>
   </section>
 
-  <!-- ================= COWORK TASKS ================= -->
+  <!-- ============ TASK MENU ============ -->
   <section class="panel" id="p-tasks">
     <h2>Cowork task menu &#8212; pick one, copy it, try it</h2>
-    <p class="note">Put this tab on the projector (or share the link) and let each owner pick the task that fits their week. Every task is copy-paste ready &#8212; gather the files listed, paste the task into Cowork, and approve the plan it shows you. <b>Nervous? Copy the folder first.</b> Cowork always asks before deleting anything.</p>
+    <p class="note">Twelve ready-made tasks. Gather the files listed, paste the task into Cowork, and approve the plan it shows you. <b>Nervous? Copy the folder first.</b> Cowork always asks before deleting anything. Come back to this menu anytime &#8212; it's staying up.</p>
     <div class="fchips" id="taskChips"></div>
     <div id="taskGrid"></div>
   </section>
 
-  <!-- ================= WRAP UP ================= -->
-  <section class="panel" id="p-wrap">
-    <h2>Wrap-up &#8212; put this on the projector</h2>
+  <!-- ============ HOMEWORK ============ -->
+  <section class="panel" id="p-home">
+    <h2>Before you go</h2>
     <div class="card">
-      <b>What everyone did today</b>
+      <b>What you did today</b>
       <ul class="checks">
         <li>Set up a Claude Pro account</li>
-        <li>Ran a first real prompt</li>
+        <li>Ran your first real prompt</li>
         <li>Watched Cowork do a real task with real files</li>
-        <li>Got a personalized playbook built from your own business</li>
+        <li>Got a playbook built from your own answers</li>
       </ul>
     </div>
     <div class="card">
-      <b>Homework this week &#8212; one thing</b>
-      <p class="note" style="margin:6px 0 0">Run one Cowork task before Friday &#8212; either the homework from your playbook, or any task you pick from the Cowork Tasks menu. It takes one folder and ten minutes. Reply to the follow-up email with what it made for you &#8212; the good and the weird.</p>
+      <b>Your homework this week &#8212; one thing</b>
+      <p class="note" style="margin:6px 0 0">Run one Cowork task before Friday: the homework in your playbook, or anything from the Task Menu. It takes one folder and ten minutes. Reply to our follow-up email with what it made for you &#8212; the good and the weird.</p>
     </div>
     <div class="card">
       <b>Rules of thumb to leave with</b>
@@ -302,22 +284,23 @@
         <li>If the first answer is off, say why &#8212; the second one is usually right</li>
       </ul>
     </div>
+    <div class="card">
+      <b>Keep this page</b>
+      <p class="note" style="margin:6px 0 0">Bookmark this site &#8212; your playbook, checklists, and the task menu live right here on your device. Questions after today? The Ain Hub is at <b>theainhub.com</b>.</p>
+    </div>
   </section>
 
-  <div class="footer">The Ain Technology &amp; Design Hub at FGCU &#183; theainhub.com &#183; July 20 workshop kit<br>data stays in this browser (localStorage) &#183; export before switching machines</div>
+  <div class="footer">The Ain Technology &amp; Design Hub at FGCU &#183; theainhub.com &#183; July 20 workshop<br>everything you type saves on your device only &#8212; we never see it</div>
 </div>
 
 <script>
 (function(){
-  var KEY='july20-workshop-biz-v1';
-  var biz=[];
-  try{ biz=JSON.parse(localStorage.getItem(KEY)||'[]'); }catch(e){ biz=[]; }
-  var editId=null;
-
-  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(biz)); }catch(e){} refresh(); }
+  var KEY='july20-attendee-v1';
+  var me={};
+  try{ me=JSON.parse(localStorage.getItem(KEY)||'{}'); }catch(e){ me={}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(me)); }catch(e){} }
   function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
   function el(id){ return document.getElementById(id); }
-  function discoveryDone(b){ return !!(b.sells && b.timesink); }
 
   /* ---------- tabs ---------- */
   var tabs=[].slice.call(document.querySelectorAll('.tab'));
@@ -325,35 +308,67 @@
     t.addEventListener('click',function(){
       tabs.forEach(function(x){x.classList.remove('on');});
       t.classList.add('on');
-      ['agenda','biz','disc','play','tasks','wrap'].forEach(function(p){
+      ['start','pro','cw','me','play','tasks','home'].forEach(function(p){
         el('p-'+p).classList.toggle('on', t.dataset.t===p);
       });
+      if(t.dataset.t==='play') renderPlay();
     });
   });
+  function goTab(name){ tabs.forEach(function(t){ if(t.dataset.t===name) t.click(); }); }
 
-  /* ---------- discovery questions ---------- */
-  var QS=[
-    {k:'sells', q:'What do you sell, in one sentence?',
-     ask:'Ask: "If I was a customer, what am I actually buying from you?" Write it in their words.',
-     ph:'Slow-smoked BBQ plates and catering for events'},
-    {k:'customers', q:'Who buys it?',
-     ask:'Ask: "Describe your favorite regular." Specific person beats demographics.',
-     ph:'Families and office lunch crowds in Fort Myers; catering for parties of 20-100'},
-    {k:'timesink', q:'Where does your computer time actually go?', type:'select',
-     opts:['Social media & marketing','Emails & admin','Bookkeeping & receipts','Scheduling & clients','Files & paperwork chaos','Proposals, quotes & documents'],
-     ask:'Ask: "Walk me through what you did on the computer last week. What made you sigh?"'},
-    {k:'detail', q:'Tell me more about that time-sink',
-     ask:'Dig in: How often? What does it look like? What have they tried? One concrete example.',
-     ph:'Posts 3x a week, takes an hour each because captions are hard; photos live in 4 different places'},
-    {k:'files', q:'What files or folders do they touch most?',
-     ask:'This becomes their Cowork homework. Ask: "What folder on your computer is the messiest but most important?"',
-     ph:'A receipts folder on the desktop; photos on phone; price list in an old Word doc'},
-    {k:'goal', q:'What is the dream win for this quarter?',
-     ask:'Ask: "If this workshop actually works, what looks different for you by October?"',
-     ph:'Book 2 more catering gigs a month without hiring anyone'}
+  /* ---------- step checklists ---------- */
+  var PRO_STEPS=[
+    {t:'Go to claude.ai and sign in',
+     d:'Open claude.ai in a new tab. Continue with Google is fastest; Continue with email sends you a one-time code - keep your inbox open.'},
+    {t:'Say hi',
+     d:'Send Claude a quick hello so you know everything works. Congrats - that is a working free account.'},
+    {t:'Upgrade to Pro - $20/month',
+     d:'Click your initials (bottom-left), then Settings, Billing, Upgrade, and choose Pro. Enter your card privately on your own screen - never while sharing to the projector. Cancel anytime in the same place.'},
+    {t:'Run your first real prompt',
+     d:'Copy the prompt below this checklist, paste it into Claude, and see what it says about your week.'}
   ];
+  var CW_STEPS=[
+    {t:'Get the Claude desktop app',
+     d:'Download it at claude.com/download and sign in with the account you just made. Cowork is included in your Pro plan - no extra cost.'},
+    {t:'Open the Cowork tab',
+     d:'It is at the top of the app, between Chat and Code.'},
+    {t:'Add the practice folder',
+     d:'Click Add Folder and pick the Brand Content practice folder we shared with you. Claude can only see folders you grant - nothing else on your computer.'},
+    {t:'Run the demo task',
+     d:'Copy the task below this checklist, paste it into Cowork, and approve the plan it shows you. Then watch it work.'}
+  ];
+  function renderSteps(listEl,steps,stateKey,progEl){
+    if(!Array.isArray(me[stateKey])) me[stateKey]=steps.map(function(){return false;});
+    listEl.innerHTML='';
+    function prog(){
+      var done=me[stateKey].filter(Boolean).length;
+      progEl.textContent = done ? done+'/'+steps.length : '';
+    }
+    steps.forEach(function(s,i){
+      var li=document.createElement('li');
+      if(me[stateKey][i]) li.className='done';
+      li.innerHTML='<input type="checkbox" id="'+stateKey+i+'"'+(me[stateKey][i]?' checked':'')+'>'
+        +'<div><b><label for="'+stateKey+i+'" style="display:inline;font-size:inherit;margin:0;cursor:pointer">'+esc(s.t)+'</label></b><p>'+esc(s.d)+'</p></div>';
+      li.querySelector('input').addEventListener('change',function(){
+        me[stateKey][i]=this.checked; save();
+        li.classList.toggle('done',this.checked); prog();
+      });
+      listEl.appendChild(li);
+    });
+    prog();
+  }
+  renderSteps(el('proSteps'),PRO_STEPS,'pro',el('proProg'));
+  renderSteps(el('cwSteps'),CW_STEPS,'cw',el('cwProg'));
 
-  /* ---------- playbook templates ---------- */
+  /* ---------- your business form ---------- */
+  [].slice.call(document.querySelectorAll('#p-me [data-k]')).forEach(function(inp){
+    inp.value=me[inp.dataset.k]||'';
+    inp.addEventListener('input',function(){ me[inp.dataset.k]=inp.value; save(); });
+    inp.addEventListener('change',function(){ me[inp.dataset.k]=inp.value; save(); });
+  });
+  el('toPlay').addEventListener('click',function(){ goTab('play'); });
+
+  /* ---------- playbook ---------- */
   function makePlaybook(b){
     var name=b.name||'my business', ind=(b.industry||'small').toLowerCase();
     var sells=b.sells||'what we sell', cust=b.customers||'our customers';
@@ -362,34 +377,34 @@
     var ts=b.timesink||'Social media & marketing';
     var detail=b.detail?(' Context: '+b.detail+'.'):'';
 
-    var p1={t:'The context prompt (run this live, first)',
-      m:'Teaches them that context is everything. Paste, run, keep the chat open all week.',
+    var p1={t:'The context prompt - run this one first',
+      m:'Context is everything. Paste this into Claude now and keep that chat open all week.',
       x:'I run '+name+', a '+ind+' business. We sell '+sells+'. Our customers: '+cust+'. My biggest goal this quarter: '+goal+'. My biggest weekly time-sink: '+ts.toLowerCase()+'.'+detail+'\n\nActing as my part-time operations partner, give me: 1) the three highest-leverage ways you can help me every week, 2) one thing I should stop doing manually, and 3) the first question you need answered to help me better.'};
 
     var byTs={
-     'Social media & marketing':{t:'The weekly content engine',
-       m:'Their recurring marketing prompt. Same chat, every Monday.',
+     'Social media & marketing':{t:'Your weekly content engine',
+       m:'Your recurring Monday prompt - same chat, every week.',
        x:'Based on what you know about '+name+', draft this week\'s content: 3 Instagram captions in my voice (casual, no corporate speak), 1 short email to past customers, and 1 idea for a photo I can take on my phone today. My audience: '+cust+'.'},
-     'Emails & admin':{t:'The inbox template pack',
-       m:'Turns their 5 most-repeated emails into reusable templates.',
+     'Emails & admin':{t:'Your inbox template pack',
+       m:'Turns your five most-repeated emails into reusable templates.',
        x:'I answer the same customer emails over and over at '+name+'. The most common: pricing questions, availability, "can you do X", complaints, and follow-ups that went quiet. Draft a warm, short reply template for each of the five, in a voice that sounds like a real person who sells '+sells+'. Leave blanks I can fill in fast.'},
-     'Bookkeeping & receipts':{t:'The 20-minute Friday books routine',
-       m:'A routine, not software. Cowork homework pairs with this.',
+     'Bookkeeping & receipts':{t:'Your 20-minute Friday books routine',
+       m:'A routine, not software. Pairs with your Cowork homework below.',
        x:'Design a dead-simple weekly bookkeeping routine for '+name+' ('+ind+'). I have receipts and invoices scattered as '+files+'. Give me: a folder structure, a 20-minute Friday checklist, and the 5 numbers I should actually watch monthly. Assume no accounting background.'},
-     'Scheduling & clients':{t:'The booking message sequence',
-       m:'Confirmation, reminder, and follow-up they can reuse forever.',
+     'Scheduling & clients':{t:'Your booking message sequence',
+       m:'Confirmation, reminder, and follow-up you can reuse forever.',
        x:'Write me a reusable message sequence for '+name+': 1) a friendly booking confirmation, 2) a reminder for the day before, 3) a follow-up two days after asking for a review or rebooking. We sell '+sells+' to '+cust+'. Short enough to text.'},
-     'Files & paperwork chaos':{t:'The filing system I will actually keep',
-       m:'Sets up the mental model before Cowork does the labor.',
+     'Files & paperwork chaos':{t:'The filing system you will actually keep',
+       m:'Sets up the plan - then your Cowork homework does the labor.',
        x:'My business files are a mess: '+files+'. Design a simple folder structure for '+name+' that a busy owner will actually maintain, with naming rules (dates first!), what to keep vs toss, and a 15-minute monthly reset checklist.'},
      'Proposals, quotes & documents':{t:'The proposal that writes itself',
-       m:'One reusable skeleton; Claude fills it per client afterward.',
+       m:'One reusable skeleton - Claude fills it in per client afterward.',
        x:'Create a reusable proposal/quote template for '+name+'. We sell '+sells+' to '+cust+'. Sections: what they get, timeline, price options (good/better/best), and the small print I probably forget. Then show it filled in with a realistic example client so I can see the finished feel.'}
     };
     var p2=byTs[ts]||byTs['Social media & marketing'];
 
-    var p3={t:'The goal breakdown',
-      m:'Ends the session pointed at their dream win.',
+    var p3={t:'Your goal, broken down',
+      m:'Points the whole thing at your dream win.',
       x:'My big goal for '+name+' this quarter: '+goal+'. Break this into 4 weekly milestones. For each week, tell me: the one action to take, what to ask you to help with that week, and how I will know it worked. Keep it realistic for one busy owner.'};
 
     var coworkByTs={
@@ -407,178 +422,37 @@
        bring:['2-3 past proposals, quotes, or invoices']}
     };
     var cw=coworkByTs[ts]||coworkByTs['Social media & marketing'];
-
     return {p1:p1,p2:p2,p3:p3,cw:cw};
   }
 
-  /* ---------- roster render ---------- */
-  function refresh(){
-    el('bizcount').textContent = biz.length ? '('+biz.length+')' : '';
-    var g=el('bizgrid'); g.innerHTML='';
-    el('bizempty').style.display = biz.length ? 'none':'block';
-    biz.forEach(function(b){
-      var d=document.createElement('div'); d.className='bizcard';
-      d.innerHTML='<h3>'+esc(b.name)+'</h3>'
-        +'<p class="ind">'+esc(b.industry||'')+(b.owner?' &#183; '+esc(b.owner):'')+'</p>'
-        +'<div class="pillrow">'
-        +(discoveryDone(b)?'<span class="pill ok">&#10003; DISCOVERY DONE</span><span class="pill ok">&#9889; PLAYBOOK READY</span>'
-                          :'<span class="pill todo">&#9998; NEEDS DISCOVERY</span>')
-        +'</div>'
-        +'<div class="row">'
-        +'<button class="btn small ghost" data-a="disc" data-id="'+b.id+'">&#128269; Discovery</button>'
-        +'<button class="btn small ghost" data-a="play" data-id="'+b.id+'">&#9889; Playbook</button>'
-        +'<button class="btn small ghost" data-a="edit" data-id="'+b.id+'">Edit</button>'
-        +'<button class="btn small danger" data-a="del" data-id="'+b.id+'">&#10005;</button>'
-        +'</div>';
-      g.appendChild(d);
-    });
-    fillPick(el('discPick')); fillPick(el('playPick'));
-    renderDisc(); renderPlay();
-  }
-
-  function fillPick(sel){
-    var cur=sel.value;
-    sel.innerHTML='';
-    if(!biz.length){ sel.innerHTML='<option value="">No businesses yet - add one in the Businesses tab</option>'; return; }
-    biz.forEach(function(b){
-      var o=document.createElement('option'); o.value=b.id;
-      o.textContent=b.name+(discoveryDone(b)?'':'  (needs discovery)');
-      sel.appendChild(o);
-    });
-    if(cur && biz.some(function(b){return String(b.id)===cur;})) sel.value=cur;
-  }
-
-  el('bizgrid').addEventListener('click',function(e){
-    var t=e.target.closest('button'); if(!t)return;
-    var id=t.dataset.id, a=t.dataset.a;
-    var b=biz.find(function(x){return String(x.id)===id;}); if(!b)return;
-    if(a==='del'){ if(confirm('Remove '+b.name+'?')){ biz=biz.filter(function(x){return String(x.id)!==id;}); save(); } }
-    else if(a==='edit'){
-      editId=b.id; el('formTitle').textContent='Edit: '+b.name;
-      el('f-name').value=b.name||''; el('f-owner').value=b.owner||'';
-      el('f-industry').value=b.industry||'Other'; el('f-tech').value=b.tech||'2';
-      el('cancelEdit').style.display='inline-block';
-      el('bizform').scrollIntoView({behavior:'smooth'});
-    }
-    else if(a==='disc'){ tabs[2].click(); el('discPick').value=id; renderDisc(); }
-    else if(a==='play'){ tabs[3].click(); el('playPick').value=id; renderPlay(); }
-  });
-
-  el('saveBiz').addEventListener('click',function(){
-    var name=el('f-name').value.trim();
-    if(!name){ el('f-name').focus(); return; }
-    if(editId!=null){
-      var b=biz.find(function(x){return x.id===editId;});
-      if(b){ b.name=name; b.owner=el('f-owner').value.trim(); b.industry=el('f-industry').value; b.tech=el('f-tech').value; }
-    }else{
-      biz.push({id:Date.now()+Math.floor(Math.random()*1000), name:name, owner:el('f-owner').value.trim(),
-                industry:el('f-industry').value, tech:el('f-tech').value});
-    }
-    editId=null; el('formTitle').textContent='Add a business';
-    el('f-name').value=''; el('f-owner').value=''; el('cancelEdit').style.display='none';
-    save();
-  });
-  el('cancelEdit').addEventListener('click',function(){
-    editId=null; el('formTitle').textContent='Add a business';
-    el('f-name').value=''; el('f-owner').value=''; this.style.display='none';
-  });
-
-  /* ---------- import / export ---------- */
-  el('exportBtn').addEventListener('click',function(){
-    var txt=JSON.stringify(biz,null,1);
-    function done(){ el('exportMsg').textContent='Copied to clipboard \u2713'; setTimeout(function(){el('exportMsg').textContent='';},2500); }
-    if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(done,function(){ prompt('Copy this:',txt); }); }
-    else prompt('Copy this:',txt);
-  });
-  el('importBtn').addEventListener('click',function(){
-    var box=el('importBox'); box.style.display=box.style.display==='none'?'block':'none';
-  });
-  el('importGo').addEventListener('click',function(){
-    var raw=el('importText').value.trim(); if(!raw)return;
-    var added=0;
-    try{
-      var arr=JSON.parse(raw);
-      if(Array.isArray(arr)){ arr.forEach(function(o){ if(o&&o.name){ o.id=o.id||Date.now()+Math.floor(Math.random()*100000); biz.push(o); added++; } }); }
-    }catch(e){
-      raw.split('\n').forEach(function(line){
-        var parts=line.split(',').map(function(s){return s.trim();});
-        if(parts[0]){ biz.push({id:Date.now()+Math.floor(Math.random()*100000), name:parts[0], industry:parts[1]||'Other', owner:parts[2]||'', tech:'2'}); added++; }
-      });
-    }
-    el('importMsg').textContent=added+' added \u2713'; setTimeout(function(){el('importMsg').textContent='';},2500);
-    el('importText').value=''; save();
-  });
-
-  /* ---------- discovery render ---------- */
-  function renderDisc(){
-    var body=el('discBody');
-    var id=el('discPick').value;
-    var b=biz.find(function(x){return String(x.id)===id;});
-    if(!b){ body.innerHTML='<div class="empty"><b>Pick or add a business first</b>Discovery answers save as you type.</div>'; return; }
-    var html='';
-    QS.forEach(function(q,i){
-      html+='<div class="card qcard"><label style="margin-top:0">'+(i+1)+'. '+esc(q.q)+'</label>';
-      if(q.type==='select'){
-        html+='<select data-k="'+q.k+'">'+q.opts.map(function(o){
-          return '<option'+(b[q.k]===o?' selected':'')+'>'+esc(o)+'</option>';
-        }).join('')+'</select>';
-      }else{
-        html+='<textarea data-k="'+q.k+'" placeholder="'+esc(q.ph||'')+'">'+esc(b[q.k]||'')+'</textarea>';
-      }
-      html+='<p class="ask"><b>&#128483; Facilitator:</b> '+esc(q.ask)+'</p></div>';
-    });
-    html+='<button class="btn" id="toPlay">&#9889; Generate playbook &#8594;</button>';
-    body.innerHTML=html;
-    [].slice.call(body.querySelectorAll('[data-k]')).forEach(function(inp){
-      inp.addEventListener('input',function(){ b[inp.dataset.k]=inp.value; save0(); });
-      inp.addEventListener('change',function(){ b[inp.dataset.k]=inp.value; save(); });
-    });
-    var tp=el('toPlay');
-    if(tp) tp.addEventListener('click',function(){ tabs[3].click(); el('playPick').value=String(b.id); renderPlay(); });
-  }
-  function save0(){ try{ localStorage.setItem(KEY, JSON.stringify(biz)); }catch(e){} } /* save without rerender while typing */
-  el('discPick').addEventListener('change',renderDisc);
-
-  /* ---------- playbook render ---------- */
   function renderPlay(){
     var body=el('playBody');
-    var id=el('playPick').value;
-    var b=biz.find(function(x){return String(x.id)===id;});
-    if(!b){ body.innerHTML='<div class="empty"><b>Pick or add a business first</b>Playbooks generate from discovery answers.</div>'; return; }
-    if(!discoveryDone(b)){
-      body.innerHTML='<div class="empty"><b>'+esc(b.name)+' needs discovery first</b>Two minutes in the Discovery tab unlocks their playbook.</div>'; return;
+    if(!(me.name&&me.sells&&me.timesink)){
+      body.innerHTML='<div class="empty"><b>Almost there!</b>Fill in at least your business name, what you sell, and your time-sink in the Your Business tab - then come back here.</div>'
+        +'<button class="btn" id="backToMe">&#128075; Go to Your Business</button>';
+      var back=el('backToMe');
+      if(back) back.addEventListener('click',function(){ goTab('me'); });
+      return;
     }
-    var pb=makePlaybook(b);
+    var pb=makePlaybook(me);
     function block(no,p){
       return '<div class="card pb"><h3><span class="tagno">'+no+'</span>'+esc(p.t)
         +'</h3><p class="meta">'+esc(p.m)+'</p>'
         +'<div class="prompttext">'+esc(p.x)+'</div>'
         +'<button class="btn small ghost" data-copy>&#128203; Copy prompt</button><span class="copied"></span></div>';
     }
-    var html='<div class="card" style="border-left:4px solid var(--sun)"><h3 style="margin:0 0 2px">'+esc(b.name)+'</h3>'
-      +'<p class="meta" style="color:var(--dim);font-size:13px;margin:0">'+esc(b.industry||'')+(b.owner?' &#183; '+esc(b.owner):'')
-      +' &#183; time-sink: '+esc(b.timesink||'')+(b.tech==='1'?' &#183; &#128013; go slow':b.tech==='3'?' &#183; &#128640; will race ahead':'')+'</p></div>'
+    body.innerHTML='<div class="card" style="border-left:4px solid var(--lime)"><h3 style="margin:0 0 2px">'+esc(me.name)+'</h3>'
+      +'<p style="color:var(--dim);font-size:13px;margin:0">'+esc(me.industry||'')+' &#183; time-sink: '+esc(me.timesink)+'</p></div>'
       + block(1,pb.p1) + block(2,pb.p2) + block(3,pb.p3)
-      +'<div class="card pb"><h3><span class="tagno">&#127968;</span>Cowork homework &#8212; this week</h3>'
-      +'<p class="meta">Their first solo Cowork task, built from their own files.</p>'
+      +'<div class="card pb"><h3><span class="tagno">&#127968;</span>Your Cowork homework - this week</h3>'
+      +'<p class="meta">Your first solo Cowork task, built from your own files.</p>'
       +'<div class="prompttext">'+esc(pb.cw.x)+'</div>'
       +'<button class="btn small ghost" data-copy>&#128203; Copy task</button><span class="copied"></span>'
-      +'<label style="margin-top:14px">Bring / gather these files</label><ul class="bring">'
+      +'<label style="margin-top:14px">Gather these files first</label><ul class="bring">'
       + pb.cw.bring.map(function(x){return '<li>'+esc(x)+'</li>';}).join('') +'</ul></div>';
-    body.innerHTML=html;
-    [].slice.call(body.querySelectorAll('[data-copy]')).forEach(function(btn){
-      btn.addEventListener('click',function(){
-        var txt=btn.parentElement.querySelector('.prompttext').textContent;
-        var msg=btn.parentElement.querySelector('.copied');
-        function done(){ msg.textContent='Copied \u2713'; setTimeout(function(){msg.textContent='';},2000); }
-        if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(done,function(){ prompt('Copy this:',txt); }); }
-        else prompt('Copy this:',txt);
-      });
-    });
   }
-  el('playPick').addEventListener('change',renderPlay);
 
-  /* ---------- cowork task menu ---------- */
+  /* ---------- task menu ---------- */
   var TASKS=[
    {c:'Files', t:'Tame a messy folder', time:'10 min',
     bring:'Your messiest important folder (copy it first if nervous)',
@@ -628,8 +502,7 @@
     });
   }
   function renderTasks(){
-    var g=el('taskGrid');
-    g.innerHTML = TASKS.filter(function(t){return curCat==='All'||t.c===curCat;}).map(function(t){
+    el('taskGrid').innerHTML = TASKS.filter(function(t){return curCat==='All'||t.c===curCat;}).map(function(t){
       return '<div class="card taskcard"><h3>'+esc(t.t)+'</h3>'
         +'<div class="tmeta"><span class="pill cat">'+esc(t.c).toUpperCase()+'</span><span class="pill time">&#9201; '+esc(t.time)+'</span></div>'
         +'<p class="tbring"><b>Gather first:</b> '+esc(t.bring)+'</p>'
@@ -637,16 +510,16 @@
         +'<button class="btn small ghost" data-copy>&#128203; Copy task</button><span class="copied"></span></div>';
     }).join('');
   }
-  el('taskGrid').addEventListener('click',function(e){
+  renderTaskChips(); renderTasks();
+
+  /* ---------- global copy handler ---------- */
+  document.addEventListener('click',function(e){
     var btn=e.target.closest('[data-copy]'); if(!btn)return;
     var txt=btn.parentElement.querySelector('.prompttext').textContent;
     var msg=btn.parentElement.querySelector('.copied');
-    function done(){ msg.textContent='Copied \u2713'; setTimeout(function(){msg.textContent='';},2000); }
+    function done(){ if(msg){ msg.textContent='Copied \u2713'; setTimeout(function(){msg.textContent='';},2000);} }
     if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(done,function(){ prompt('Copy this:',txt); }); }
     else prompt('Copy this:',txt);
   });
-  renderTaskChips(); renderTasks();
-
-  refresh();
 })();
 </script>
