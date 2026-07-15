@@ -1,0 +1,535 @@
+<title>Claude Pro + Cowork &#8212; Mock Walkthrough</title>
+<style>
+  :root{
+    --bg:#14161a;            /* player room */
+    --panel:#1d2026;
+    --panel-2:#23262d;
+    --line:#32363f;
+    --text:#eceef1;
+    --text-dim:#9aa0ab;
+    --accent:#d97757;        /* claude terracotta */
+    --accent-soft:#d9775726;
+    --go:#4fae6e;
+    /* mock claude.ai screen tokens (stay light in both themes &#8212; it's a "screen") */
+    --scr-bg:#f4f1ea;
+    --scr-card:#ffffff;
+    --scr-ink:#2b2620;
+    --scr-dim:#7d7466;
+    --scr-line:#e2dcd0;
+    --scr-accent:#d97757;
+  }
+  @media (prefers-color-scheme: light){
+    :root{
+      --bg:#efece6; --panel:#ffffff; --panel-2:#f7f4ee; --line:#ddd6ca;
+      --text:#2b2620; --text-dim:#7d7466;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#14161a; --panel:#1d2026; --panel-2:#23262d; --line:#32363f;
+    --text:#eceef1; --text-dim:#9aa0ab;
+  }
+  :root[data-theme="light"]{
+    --bg:#efece6; --panel:#ffffff; --panel-2:#f7f4ee; --line:#ddd6ca;
+    --text:#2b2620; --text-dim:#7d7466;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:var(--bg); color:var(--text);
+    font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;
+    padding:28px 20px 60px;
+  }
+  .wrap{max-width:880px;margin:0 auto}
+  .kicker{
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+    font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-dim);
+    margin-bottom:8px;
+  }
+  .badge{
+    background:var(--accent-soft);color:var(--accent);
+    border:1px solid var(--accent);border-radius:3px;
+    padding:2px 8px;font-weight:700;font-size:11px;letter-spacing:.12em;
+  }
+  h1{font-size:26px;margin:0 0 4px;text-wrap:balance;font-weight:700}
+  .sub{color:var(--text-dim);margin:0 0 22px;max-width:62ch}
+
+  /* ---- player ---- */
+  .player{
+    background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,.25);
+  }
+  .stage{
+    position:relative;
+    background:linear-gradient(160deg,#f8f2e7 0%,#f7efe2 55%,#fbe9da 100%);
+    height:520px;
+  }
+  /* playful backdrop shapes */
+  .decor{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+  .decor i{position:absolute;border-radius:50%}
+  .decor .d1{width:360px;height:360px;top:-130px;right:-110px;background:radial-gradient(circle at 35% 35%,#d9775726,#d977570d)}
+  .decor .d2{width:240px;height:240px;bottom:-90px;left:-70px;background:radial-gradient(circle at 60% 40%,#f2b64c33,#f2b64c0d)}
+  .decor .d3{width:150px;height:100px;bottom:56px;right:40px;border-radius:0;
+    background-image:radial-gradient(#d97757 2px,transparent 2.5px);background-size:19px 19px;opacity:.3}
+  .decor .d4{width:64px;height:64px;top:130px;right:210px;background:#4fae6e2b}
+  .decor .d5{width:26px;height:26px;top:88px;right:120px;background:#f2b64c55;transform:rotate(12deg);border-radius:6px}
+  .slide{background:transparent}
+  .hl{background:#ffd66e80;border-radius:6px;padding:0 8px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+
+  /* title card */
+  .slide.title{justify-content:center}
+  .tbadge{display:inline-block;align-self:flex-start;background:#2b2620;color:#fff;padding:7px 16px;border-radius:22px;
+    font-weight:800;letter-spacing:.14em;font-size:12px;transform:rotate(-2deg)}
+  .bigtitle{font-family:Georgia,'Times New Roman',serif;font-size:52px;line-height:1.12;margin:22px 0 14px;letter-spacing:-.01em}
+  .tsub{color:var(--scr-dim);font-size:16px;max-width:46ch;margin:0 0 24px}
+  .tpills{display:flex;gap:12px;flex-wrap:wrap}
+  .tpills span{background:#fff;border:2px solid #e5ddcd;border-radius:24px;padding:9px 18px;font-weight:700;font-size:13.5px;box-shadow:0 2px 0 #e5ddcd}
+  .tpills span:nth-child(odd){transform:rotate(-1.5deg)}
+  .tpills span:nth-child(even){transform:rotate(1.4deg)}
+  .slide{
+    position:absolute;inset:0;padding:34px 38px;
+    overflow-y:auto;
+    opacity:0;transition:opacity .35s ease;pointer-events:none;
+    color:var(--scr-ink);
+    display:flex;flex-direction:column;
+  }
+  .slide.on{opacity:1;pointer-events:auto}
+  @media (prefers-reduced-motion: reduce){ .slide{transition:none} }
+
+  /* mock browser chrome */
+  .urlbar{
+    display:flex;align-items:center;gap:8px;margin:-14px -18px 20px;
+    background:#e9e4d9;border-bottom:1px solid var(--scr-line);
+    padding:9px 16px;border-radius:0;font-size:12.5px;color:var(--scr-dim);
+  }
+  .dot{width:9px;height:9px;border-radius:50%;background:#cfc7b8}
+  .url{background:#fff;border:1px solid var(--scr-line);border-radius:20px;padding:4px 14px;color:var(--scr-ink);font-size:12.5px}
+
+  /* mock desktop-app chrome (Part 2) */
+  .apptab{padding:4px 14px;border-radius:16px;font-size:12.5px;color:var(--scr-dim)}
+  .apptab.on{background:#fff;border:1px solid var(--scr-line);color:var(--scr-ink);font-weight:700}
+  .part{
+    font-size:10.5px;font-weight:800;letter-spacing:.16em;color:var(--scr-accent);
+    margin:0 0 2px;
+  }
+  .tasklist{list-style:none;margin:0;padding:0;font-size:13.5px;max-width:460px}
+  .tasklist li{padding:7px 0 7px 26px;border-bottom:1px dashed var(--scr-line);position:relative;color:var(--scr-ink)}
+  .tasklist li::before{content:"\2713";position:absolute;left:2px;color:var(--go);font-weight:800}
+  .tasklist li.doing::before{content:"\25B8";color:var(--scr-accent)}
+  .tasklist li.todo{color:var(--scr-dim)}
+  .tasklist li.todo::before{content:"\25CB";color:var(--scr-dim);font-weight:400}
+  .filerow{display:flex;gap:10px;align-items:center;background:var(--scr-card);border:1px solid var(--scr-line);border-radius:8px;padding:9px 14px;margin-bottom:8px;font-size:13.5px;max-width:460px}
+  .filerow .ext{font-size:10px;font-weight:800;letter-spacing:.06em;background:#efe9dd;border-radius:4px;padding:2px 6px;color:var(--scr-dim)}
+
+  .scr-title{font-family:Georgia,'Times New Roman',serif;font-size:30px;margin:6px 0 6px;font-weight:500;letter-spacing:-.01em}
+  .scr-sub{color:var(--scr-dim);margin:0 0 20px;font-size:14.5px;max-width:52ch}
+  .card{
+    background:var(--scr-card);border:1px solid var(--scr-line);border-radius:10px;
+    padding:18px 20px;max-width:420px;
+  }
+  .btn{
+    display:block;width:100%;text-align:center;border-radius:8px;padding:10px 14px;
+    font-weight:600;font-size:14px;border:1px solid var(--scr-line);
+    background:#fff;color:var(--scr-ink);margin-bottom:10px;
+  }
+  .btn.primary{background:var(--scr-accent);border-color:var(--scr-accent);color:#fff}
+  .btn.dark{background:#2b2620;border-color:#2b2620;color:#fff}
+  .field{
+    border:1px solid var(--scr-line);border-radius:8px;padding:10px 12px;margin-bottom:10px;
+    color:var(--scr-dim);font-size:14px;background:#fff;
+  }
+  .hint{font-size:12px;color:var(--scr-dim)}
+  .pointer{
+    position:relative;
+  }
+  .pointer::after{
+    content:"\1F446  click here in the live demo";
+    position:absolute;left:calc(100% + 14px);top:50%;transform:translateY(-50%);
+    white-space:nowrap;font-size:12px;font-weight:700;color:var(--scr-accent);
+  }
+  @media (max-width:720px){ .pointer::after{content:"\1F446";left:auto;right:10px} }
+
+  /* plans */
+  .plans{display:flex;gap:14px;flex-wrap:wrap}
+  .plan{
+    flex:1 1 160px;background:var(--scr-card);border:1px solid var(--scr-line);
+    border-radius:10px;padding:16px;min-width:150px;
+  }
+  .plan.hot{border:2px solid var(--scr-accent);position:relative}
+  .plan.hot::before{
+    content:"WORKSHOP PICK";position:absolute;top:-9px;left:12px;background:var(--scr-accent);
+    color:#fff;font-size:9.5px;font-weight:800;letter-spacing:.1em;padding:2px 7px;border-radius:3px;
+  }
+  .plan h3{margin:2px 0 2px;font-size:15px}
+  .price{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+  .price small{font-size:12px;font-weight:400;color:var(--scr-dim)}
+  .plan ul{margin:8px 0 0;padding-left:16px;font-size:12.5px;color:var(--scr-dim)}
+  .plan li{margin-bottom:3px}
+
+  .mockflag{
+    margin-top:auto;padding-top:14px;
+    font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--scr-accent);
+  }
+  .chatline{background:var(--scr-card);border:1px solid var(--scr-line);border-radius:10px;padding:12px 16px;font-size:14px;max-width:560px;margin-bottom:10px}
+  .chatline.user{background:#efe9dd;border-color:#e0d8c7}
+  .checks{list-style:none;margin:8px 0 0;padding:0;font-size:14.5px}
+  .checks li{padding:6px 0;border-bottom:1px dashed var(--scr-line)}
+  .checks li::before{content:"\2713  ";color:var(--go);font-weight:800}
+
+  /* controls */
+  .controls{
+    display:flex;align-items:center;gap:12px;
+    padding:12px 16px;background:var(--panel-2);border-top:1px solid var(--line);
+  }
+  .ctl{
+    background:var(--panel);border:1px solid var(--line);color:var(--text);
+    border-radius:8px;padding:7px 13px;font-size:13.5px;font-weight:600;cursor:pointer;
+  }
+  .ctl:hover{border-color:var(--accent)}
+  .ctl:focus-visible,.chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .ctl.play{background:var(--accent);border-color:var(--accent);color:#fff;min-width:84px}
+  .counter{font-variant-numeric:tabular-nums;color:var(--text-dim);font-size:13px;margin-left:auto}
+  .bar{height:4px;background:var(--line)}
+  .bar i{display:block;height:100%;background:var(--accent);width:0%;transition:width .2s linear}
+
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 30px}
+  .chip{
+    background:var(--panel);border:1px solid var(--line);color:var(--text-dim);
+    border-radius:20px;padding:5px 13px;font-size:12.5px;cursor:pointer;
+  }
+  .chip.on{color:var(--text);border-color:var(--accent);background:var(--accent-soft)}
+
+  /* notes */
+  .notes{margin-top:8px}
+  h2{font-size:17px;margin:34px 0 10px}
+  .note{
+    background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--accent);
+    border-radius:8px;padding:14px 18px;margin-bottom:10px;
+  }
+  .note b{display:block;margin-bottom:3px}
+  .note p{margin:0;color:var(--text-dim);font-size:14px}
+  .warn{border-left-color:#c9a227}
+  kbd{background:var(--panel-2);border:1px solid var(--line);border-radius:4px;padding:1px 6px;font-size:12px}
+
+  /* video-capture mode (?video=1&slide=N) */
+  body.video{padding:0;background:var(--scr-bg)}
+  body.video .kicker,body.video h1,body.video .sub,body.video .chips,body.video .notes,
+  body.video .bar,body.video .controls{display:none}
+  body.video .wrap{max-width:none;margin:0}
+  body.video .player{border:none;border-radius:0;box-shadow:none}
+  body.video .stage{height:100vh}
+  body.video .slide{zoom:1.55;padding:50px 70px}
+  body.video .mockflag{position:absolute;top:16px;right:26px;margin:0;padding:0}
+  body.video #vcap{
+    position:absolute;left:50%;bottom:34px;transform:translateX(-50%);
+    max-width:1380px;background:rgba(38,30,25,.9);color:#fff;
+    border:2px solid var(--scr-accent);
+    font-size:27px;line-height:1.45;padding:16px 32px;border-radius:18px;
+    text-align:center;z-index:5;
+  }
+  body.video #vcap:empty{display:none}
+</style>
+
+<div class="wrap">
+  <div class="kicker"><span class="badge">Mock &#183; Training Demo</span><span>Workshop &#8212; Monday, July 20</span></div>
+  <h1>Setting Up Claude Pro + Your First Cowork Task</h1>
+  <p class="sub">A simulated, click-free walkthrough in two parts: <b>Part 1</b> &#8212; create the account and upgrade to Pro. <b>Part 2</b> &#8212; run a first task in Cowork. Press <kbd>Play</kbd> to run it like a video, or use the arrow buttons to step through while you present. Nothing here is live &#8212; every screen is a mock.</p>
+
+  <div class="player">
+    <div class="stage" id="stage" aria-live="polite">
+      <div class="decor" aria-hidden="true"><i class="d1"></i><i class="d2"></i><i class="d3"></i><i class="d4"></i><i class="d5"></i></div>
+
+      <!-- 0: title card -->
+      <section class="slide title" data-title="Welcome" data-sec="5">
+        <span class="tbadge">&#127881; JULY 20 WORKSHOP</span>
+        <div class="bigtitle">Claude Pro in <span class="hl">10 minutes</span><br>+ your first <span class="hl">Cowork</span> task</div>
+        <p class="tsub">A step-by-step mock walkthrough &#8212; nothing here is live, and everything is safe to follow along with.</p>
+        <div class="tpills">
+          <span>&#128179; Set up Pro</span>
+          <span>&#128421;&#65039; Meet Cowork</span>
+          <span>&#128197; Monday, July 20</span>
+        </div>
+      </section>
+
+      <!-- 1 -->
+      <section class="slide" data-title="Start" data-sec="6">
+        <div class="urlbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">claude.ai</span></div>
+        <div class="scr-title" style="font-size:38px">Claude</div>
+        <p class="scr-sub">Step 1 &#8212; Go to <b>claude.ai</b> in any browser. You'll land on the sign-in page. No download needed to start.</p>
+        <div class="card">
+          <div class="btn dark pointer">Continue with Google</div>
+          <div class="btn">Continue with email</div>
+          <p class="hint">Fastest path for the workshop: Continue with Google using your everyday account.</p>
+        </div>
+        <div class="mockflag">SIMULATED SCREEN &#8212; NOT LIVE</div>
+      </section>
+
+      <!-- 2 -->
+      <section class="slide" data-title="Verify" data-sec="6">
+        <div class="urlbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">claude.ai/login</span></div>
+        <div class="scr-title">Check your email &#128236;</div>
+        <p class="scr-sub">Step 2 &#8212; If you chose email, Claude sends a one-time code. Enter it and you're in. Google sign-in skips this step entirely.</p>
+        <div class="card">
+          <div class="field">you@example.com</div>
+          <div class="field" style="letter-spacing:.4em;font-weight:700;color:var(--scr-ink)">4 8 2 9 1 7</div>
+          <div class="btn primary pointer">Verify</div>
+          <p class="hint">Codes expire quickly &#8212; have attendees keep their inbox open in another tab.</p>
+        </div>
+        <div class="mockflag">SIMULATED SCREEN &#8212; NOT LIVE</div>
+      </section>
+
+      <!-- 3 -->
+      <section class="slide" data-title="Free account" data-sec="6">
+        <div class="urlbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">claude.ai/new</span></div>
+        <div class="scr-title">You're in! This is the <span class="hl">free</span> account</div>
+        <p class="scr-sub">Step 3 &#8212; Everyone now has a working free account. This is a good checkpoint to pause and make sure the whole room is here before anyone pays.</p>
+        <div class="chatline user">Hi Claude! &#128075;</div>
+        <div class="chatline">Hi! I'm Claude. How can I help you today?</div>
+        <p class="hint" style="margin-top:8px">Free tier works, but has daily usage limits &#8212; that's what Pro removes.</p>
+        <div class="mockflag">SIMULATED SCREEN &#8212; NOT LIVE</div>
+      </section>
+
+      <!-- 4 -->
+      <section class="slide" data-title="Pick a plan" data-sec="8">
+        <div class="urlbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">claude.ai/upgrade</span></div>
+        <div class="scr-title">Upgrade to <span class="hl">Pro</span></div>
+        <p class="scr-sub">Step 4 &#8212; Click your initials (bottom-left) &#8594; <b>Settings &#8594; Billing &#8594; Upgrade</b>, or the "Upgrade" button in the chat window.</p>
+        <div class="plans">
+          <div class="plan"><h3>Free</h3><div class="price">$0</div><ul><li>Daily usage limits</li><li>Core models</li></ul></div>
+          <div class="plan hot"><h3>Pro</h3><div class="price">$20<small>/mo</small></div><ul><li>~5&#215; more usage</li><li>Claude Code access</li><li>Projects &amp; more models</li></ul></div>
+          <div class="plan"><h3>Max</h3><div class="price">$100+<small>/mo</small></div><ul><li>Heaviest usage</li><li>Power users</li></ul></div>
+        </div>
+        <div class="mockflag">SIMULATED SCREEN &#8212; PRICES AS OF JULY 2026, VERIFY LIVE</div>
+      </section>
+
+      <!-- 5 -->
+      <section class="slide" data-title="Checkout" data-sec="8">
+        <div class="urlbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">checkout &#8212; secure payment</span></div>
+        <div class="scr-title">Payment &#128179;</div>
+        <p class="scr-sub">Step 5 &#8212; Standard card checkout. <b>In the workshop: never type a real card while screen-sharing.</b> Have attendees do this step on their own device, unmirrored.</p>
+        <div class="card">
+          <div class="field">Card number &nbsp; &#8226;&#8226;&#8226;&#8226; &#8226;&#8226;&#8226;&#8226; &#8226;&#8226;&#8226;&#8226; &#8226;&#8226;&#8226;&#8226;</div>
+          <div style="display:flex;gap:10px"><div class="field" style="flex:1">MM / YY</div><div class="field" style="flex:1">CVC</div></div>
+          <div class="btn primary">Subscribe &#8212; $20.00/mo</div>
+          <p class="hint">Cancel anytime in Settings &#8594; Billing. Charges renew monthly.</p>
+        </div>
+        <div class="mockflag">SIMULATED SCREEN &#8212; NO REAL PAYMENT FIELDS</div>
+      </section>
+
+      <!-- 6 -->
+      <section class="slide" data-title="Pro unlocked" data-sec="7">
+        <div class="urlbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">claude.ai/new</span></div>
+        <div class="scr-title">Pro is active &#127881;</div>
+        <p class="scr-sub">Step 6 &#8212; What just got unlocked, in plain terms:</p>
+        <ul class="checks" style="max-width:520px">
+          <li>Much higher daily usage &#8212; no midday cutoffs</li>
+          <li>Access to Claude Code (terminal + desktop app)</li>
+          <li>Projects &#8212; reusable workspaces with saved context</li>
+          <li>Priority access during busy hours</li>
+        </ul>
+        <div class="mockflag">SIMULATED SCREEN &#8212; NOT LIVE</div>
+      </section>
+
+      <!-- 7 -->
+      <section class="slide" data-title="First prompt" data-sec="8">
+        <div class="urlbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">claude.ai/new</span></div>
+        <div class="scr-title">Try your first real prompt &#10024;</div>
+        <p class="scr-sub">Step 7 &#8212; End the setup segment with everyone running the same prompt so the room gets a shared "it works" moment.</p>
+        <div class="chatline user">I run a small business. Give me 3 ways I could use you every week, with one example prompt for each.</div>
+        <div class="chatline">Great question! Here are three weekly workflows&#8230; <i style="color:var(--scr-dim)">(live response in the real demo)</i></div>
+        <div class="mockflag">SIMULATED SCREEN &#8212; NOT LIVE</div>
+      </section>
+
+      <!-- 8: part 2 intro -->
+      <section class="slide" data-title="Cowork intro" data-sec="7">
+        <p class="part">PART 2 &#183; COWORK</p>
+        <div class="scr-title">What is <span class="hl">Cowork</span>?</div>
+        <p class="scr-sub">Chat answers questions. <b>Cowork does tasks</b> &#8212; it works directly with real files in a folder you choose: spreadsheets, Word docs, slides, PDFs. It's a tab inside the <b>Claude Desktop app</b> (Mac &amp; Windows) and it's <b>included in the Pro plan everyone just set up</b>.</p>
+        <ul class="checks" style="max-width:540px">
+          <li>Give it a folder + a plain-English task</li>
+          <li>It shows you a plan first, then works step by step</li>
+          <li>It creates real files &#8212; .xlsx, .docx, .pptx, .pdf</li>
+          <li>Long tasks keep running even if you close your laptop</li>
+        </ul>
+        <div class="mockflag">SIMULATED SCREEN &#8212; NOT LIVE</div>
+      </section>
+
+      <!-- 9 -->
+      <section class="slide" data-title="Open Cowork" data-sec="7">
+        <div class="urlbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span style="display:flex;gap:6px;margin-left:8px"><span class="apptab">Chat</span><span class="apptab on">Cowork</span><span class="apptab">Code</span></span></div>
+        <p class="part">PART 2 &#183; STEP 1</p>
+        <div class="scr-title">Open the Cowork tab</div>
+        <p class="scr-sub">Download the Claude Desktop app from <b>claude.com/download</b>, sign in with the account from Part 1, and click <b>Cowork</b> at the top &#8212; between Chat and Code.</p>
+        <div class="card">
+          <p class="hint" style="font-size:13px;margin:0 0 6px;color:var(--scr-ink)"><b>Before the workshop:</b> have attendees install the desktop app in advance &#8212; it needs ~25&#8202;GB free disk space for its workspace.</p>
+        </div>
+        <div class="mockflag">SIMULATED SCREEN &#8212; NOT LIVE</div>
+      </section>
+
+      <!-- 10 -->
+      <section class="slide" data-title="Grant a folder" data-sec="8">
+        <div class="urlbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span style="display:flex;gap:6px;margin-left:8px"><span class="apptab">Chat</span><span class="apptab on">Cowork</span><span class="apptab">Code</span></span></div>
+        <p class="part">PART 2 &#183; STEP 2</p>
+        <div class="scr-title">Give Claude one folder &#128193;</div>
+        <p class="scr-sub">Click <b>Add Folder</b> and pick the practice folder. Claude can only see and change files inside folders you grant &#8212; nothing else on the computer.</p>
+        <div class="card">
+          <b style="font-size:14px">Allow Claude to access &#8220;Brand Content&#8221;?</b>
+          <p class="hint" style="margin:6px 0 12px">Claude will be able to read, create, and edit files in this folder. It asks again before deleting anything.</p>
+          <div class="btn primary" style="max-width:200px;display:inline-block;margin-right:8px">Allow</div>
+          <div class="btn" style="max-width:140px;display:inline-block">Cancel</div>
+        </div>
+        <div class="mockflag">SIMULATED SCREEN &#8212; NOT LIVE</div>
+      </section>
+
+      <!-- 11 -->
+      <section class="slide" data-title="Give the task" data-sec="9">
+        <div class="urlbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span style="display:flex;gap:6px;margin-left:8px"><span class="apptab">Chat</span><span class="apptab on">Cowork</span><span class="apptab">Code</span></span></div>
+        <p class="part">PART 2 &#183; STEP 3</p>
+        <div class="scr-title">Describe the task in plain English</div>
+        <p class="scr-sub">The demo task: a folder of brand photos plus a product list. No prompt engineering needed &#8212; say it like you'd say it to a coworker.</p>
+        <div class="chatline user" style="max-width:520px">Look at the photos in this folder and my product list. Build me a one-month Instagram content calendar as an Excel file &#8212; one row per post with the date, which photo to use, a caption in my brand voice, and hashtags.</div>
+        <div class="chatline" style="max-width:520px"><b>Here's my plan:</b> 1) review the 12 photos &amp; products.xlsx &#183; 2) draft 20 posts across 4 weeks &#183; 3) create content-calendar.xlsx with captions &amp; hashtags &#183; 4) flag any products that still need a photo. Look good?</div>
+        <p class="hint" style="margin-top:6px">Cowork always shows a plan first &#8212; you approve or adjust it before anything happens.</p>
+        <div class="mockflag">SIMULATED SCREEN &#8212; NOT LIVE</div>
+      </section>
+
+      <!-- 12 -->
+      <section class="slide" data-title="Watch it work" data-sec="8">
+        <div class="urlbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span style="display:flex;gap:6px;margin-left:8px"><span class="apptab">Chat</span><span class="apptab on">Cowork</span><span class="apptab">Code</span></span></div>
+        <p class="part">PART 2 &#183; STEP 4</p>
+        <div class="scr-title">Watch it work &#8212; or walk away &#9749;</div>
+        <p class="scr-sub">Cowork checks off steps as it goes. You can interrupt and redirect at any point, and it must ask before deleting files.</p>
+        <ul class="tasklist">
+          <li>Reviewed 12 brand photos + products.xlsx</li>
+          <li>Matched each product to its strongest photo</li>
+          <li class="doing">Writing 20 captions in the brand voice&#8230;</li>
+          <li class="todo">Build content-calendar.xlsx (4 weekly tabs)</li>
+          <li class="todo">List products still needing a photo</li>
+        </ul>
+        <div class="mockflag">SIMULATED SCREEN &#8212; NOT LIVE</div>
+      </section>
+
+      <!-- 13 -->
+      <section class="slide" data-title="Review results" data-sec="9">
+        <div class="urlbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span style="display:flex;gap:6px;margin-left:8px"><span class="apptab">Chat</span><span class="apptab on">Cowork</span><span class="apptab">Code</span></span></div>
+        <p class="part">PART 2 &#183; STEP 5</p>
+        <div class="scr-title">Real files, in the real folder &#128248;</div>
+        <p class="scr-sub">The calendar opens in Excel like any normal file. Not happy? Just reply &#8212; &#8220;make week 2 funnier&#8221; or &#8220;add the best posting time for each day&#8221; &#8212; and it keeps going.</p>
+        <div class="filerow"><span class="ext">XLSX</span> content-calendar.xlsx <span class="hint" style="margin-left:auto">20 posts &#183; 4 weekly tabs</span></div>
+        <div class="filerow"><span class="ext">DOCX</span> reshoot-list.docx <span class="hint" style="margin-left:auto">3 products need photos</span></div>
+        <p class="hint" style="margin-top:10px"><b>More first-task ideas for the room:</b> organize a Downloads folder &#183; turn receipts into an expense spreadsheet &#183; draft a slide deck from meeting notes.</p>
+        <div class="mockflag">SIMULATED SCREEN &#8212; NOT LIVE</div>
+      </section>
+
+      <!-- 14 -->
+      <section class="slide" data-title="Checklist" data-sec="8">
+        <div class="scr-title">You're ready! &#127881; July 20 checklist</div>
+        <ul class="checks" style="max-width:560px">
+          <li>Wi-Fi + backup hotspot tested in the room</li>
+          <li>Presenter has a throwaway/demo account signed in already</li>
+          <li>Attendees told to bring a laptop + access to their email inbox</li>
+          <li>Payment step done on personal devices, never on the projector</li>
+          <li>Shared first prompt written on a slide or whiteboard</li>
+          <li>Claude Desktop app pre-installed for the Cowork demo (~25&#8202;GB free disk)</li>
+          <li>&#8220;Brand Content&#8221; practice folder (sample photos + product list) zipped and ready to share</li>
+          <li>This walkthrough queued as the fallback if the venue Wi-Fi dies</li>
+        </ul>
+        <div class="mockflag">END OF MOCK &#8212; GOOD LUCK ON THE 20TH</div>
+      </section>
+    </div>
+
+    <div class="bar"><i id="bar"></i></div>
+    <div class="controls">
+      <button class="ctl" id="prev" aria-label="Previous step">&#8592;</button>
+      <button class="ctl play" id="play">&#9654; Play</button>
+      <button class="ctl" id="next" aria-label="Next step">&#8594;</button>
+      <span class="counter" id="counter">1 / 8</span>
+    </div>
+  </div>
+
+  <div class="chips" id="chips" role="tablist" aria-label="Steps"></div>
+
+  <div class="notes">
+    <h2>Presenter notes</h2>
+    <div class="note"><b>Timing</b><p>Full auto-play runs about two minutes &#8212; good as a looping intro while people arrive. Presenting live, budget 10&#8211;12 minutes for Part 1 (everyone signs up on their own device) and 15&#8211;20 minutes for Part 2 (install check, folder setup, and one real Cowork task).</p></div>
+    <div class="note"><b>The Cowork demo</b><p>Cowork is included with Pro &#8212; no extra purchase. It lives in the Claude Desktop app (claude.com/download), not the browser. Bring a &#8220;Brand Content&#8221; folder &#8212; a dozen sample product photos plus a small products.xlsx &#8212; share it before the session, and have everyone run the same content-calendar task. It's contained, low-stakes, and produces a real Excel file they keep. Tip: attendees with a real business can point Cowork at their own photos instead and leave with a usable calendar.</p></div>
+    <div class="note warn"><b>The payment step</b><p>This is the one step you can't do for attendees and shouldn't do on a shared screen. Show the mock slide on the projector, then have each person complete real checkout privately on their own laptop or phone.</p></div>
+    <div class="note"><b>Turning this into a video file</b><p>Play this page full-screen and screen-record it: on a Mac, press Cmd+Shift+5 &#8594; "Record Selected Portion" &#8594; press Play here &#8594; stop when it loops. That gives you an .mp4/.mov you can drop into slides or share before the meeting.</p></div>
+    <div class="note"><b>Common snags</b><p>Email code lands in spam; school/work Google accounts blocked by an admin (fall back to email signup); card declines on university purchasing cards. Mention all three up front and the Q&A gets much shorter.</p></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide'));
+  var chipsBox=document.getElementById('chips');
+  var bar=document.getElementById('bar'), counter=document.getElementById('counter');
+  var playBtn=document.getElementById('play');
+  var i=0, playing=false, t0=0, raf=null;
+  var reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  slides.forEach(function(s,idx){
+    var c=document.createElement('button');
+    c.className='chip'; c.type='button'; c.setAttribute('role','tab');
+    c.textContent=(idx+1)+'. '+s.dataset.title;
+    c.addEventListener('click',function(){go(idx);});
+    chipsBox.appendChild(c);
+  });
+  var chips=[].slice.call(chipsBox.children);
+
+  function go(n){
+    i=(n+slides.length)%slides.length;
+    slides.forEach(function(s,k){s.classList.toggle('on',k===i);});
+    chips.forEach(function(c,k){c.classList.toggle('on',k===i);});
+    counter.textContent=(i+1)+' / '+slides.length;
+    t0=performance.now(); bar.style.width='0%';
+  }
+  function tick(now){
+    if(!playing)return;
+    var dur=(+slides[i].dataset.sec||6)*1000;
+    var p=(now-t0)/dur;
+    bar.style.width=Math.min(p*100,100)+'%';
+    if(p>=1){ go(i+1); if(i===0 && !loop){stop();return;} }
+    raf=requestAnimationFrame(tick);
+  }
+  var loop=true;
+  function start(){ playing=true; playBtn.textContent='&#9208; Pause'; t0=performance.now(); raf=requestAnimationFrame(tick); }
+  function stop(){ playing=false; playBtn.textContent='&#9654; Play'; if(raf)cancelAnimationFrame(raf); bar.style.width='0%'; }
+
+  playBtn.addEventListener('click',function(){ playing?stop():start(); });
+  document.getElementById('next').addEventListener('click',function(){go(i+1);});
+  document.getElementById('prev').addEventListener('click',function(){go(i-1);});
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight')go(i+1);
+    else if(e.key==='ArrowLeft')go(i-1);
+    else if(e.key===' '&&e.target===document.body){e.preventDefault();playing?stop():start();}
+  });
+  if(reduced) loop=false;
+  var CAPTIONS=[
+    "",
+    "Welcome! First we'll set up Claude Pro, then run your first Cowork task. Go to claude.ai and click Continue with Google.",
+    "Signed up with email? Claude sends a one-time code \u2014 enter it and you're in. Google sign-in skips this step.",
+    "That's it \u2014 you have a working free account. Free has daily limits; Pro removes them.",
+    "Click your initials \u2192 Settings \u2192 Billing \u2192 Upgrade. Pro is $20/month \u2014 about 5\u00d7 more usage, plus Claude Code and Projects.",
+    "Standard card checkout. Never type a real card while screen-sharing \u2014 do this step privately. Cancel anytime in Settings.",
+    "Pro is active: higher limits, Claude Code, Projects, and priority access at busy hours.",
+    "Try a first prompt \u2014 ask Claude for three ways it could help you every week.",
+    "Part 2: Cowork. Chat answers questions \u2014 Cowork does tasks with real files in a folder you choose. Included with Pro.",
+    "Download the desktop app at claude.com/download, sign in, and click the Cowork tab.",
+    "Give Claude one folder. It can only see files in folders you grant \u2014 nothing else on your computer.",
+    "Describe the task in plain English. Cowork shows its plan first \u2014 nothing happens until you approve.",
+    "Cowork checks off steps as it works. Interrupt anytime; it always asks before deleting.",
+    "Real files appear in your folder. Want changes? Just reply \u2014 \u201cmake week 2 funnier.\u201d",
+    "That's the whole flow \u2014 account, Pro, first Cowork task. See you on July 20!"
+  ];
+  var q=new URLSearchParams(location.search);
+  var vslide=q.has('slide') ? +q.get('slide') : 0;
+  if(q.get('video')){
+    document.body.classList.add('video');
+    var cap=document.createElement('div');
+    cap.id='vcap';
+    cap.textContent=CAPTIONS[vslide]||'';
+    document.getElementById('stage').appendChild(cap);
+  }
+  go(vslide);
+})();
+</script>
