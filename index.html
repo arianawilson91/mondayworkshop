@@ -78,6 +78,22 @@
   ol.steps li.done b{color:var(--dim);text-decoration:line-through;text-decoration-color:var(--green);text-decoration-thickness:2px}
   ol.steps p{margin:2px 0 0;color:var(--dim);font-size:13.5px}
   .progress{font-size:12px;font-weight:800;color:var(--green);letter-spacing:.06em;margin-left:6px}
+  .steplink{
+    display:inline-block;background:var(--blue);color:#F0EBE0;border-radius:20px;
+    padding:7px 16px;font-weight:700;font-size:13px;text-decoration:none;margin:8px 8px 2px 0;
+  }
+  .steplink:hover{background:#003665}
+  .checkline{margin:8px 0 0;font-size:13px;color:var(--green);font-weight:700}
+  .checkline::before{content:"\2713 ";font-weight:800}
+  details.fix{margin:8px 0 0;font-size:13px}
+  details.fix summary{
+    cursor:pointer;color:var(--blue);font-weight:700;font-size:12.5px;
+    list-style-position:inside;
+  }
+  details.fix div{
+    background:var(--bg);border:1px solid var(--line);border-radius:8px;
+    padding:10px 13px;margin-top:6px;color:var(--dim);
+  }
 
   /* forms */
   label{display:block;font-weight:700;font-size:13px;margin:14px 0 5px}
@@ -318,27 +334,53 @@
 
   /* ---------- step checklists ---------- */
   var PRO_STEPS=[
-    {t:'Go to claude.ai and sign in',
-     d:'Open claude.ai in a new tab. Continue with Google is fastest; Continue with email sends you a one-time code - keep your inbox open.'},
+    {t:'Open claude.ai',
+     d:'Click the blue button below - it opens claude.ai in a new tab. Keep this page open in this tab so you can come back.',
+     link:{href:'https://claude.ai',label:'Open claude.ai \u2192'},
+     check:'You see a sign-in page with "Continue with Google" and "Continue with email" buttons.',
+     fix:'Nothing opened? Your browser may have blocked the pop-up - look for a blocked-popup icon in the address bar, or type claude.ai into a new tab yourself.'},
+    {t:'Sign in',
+     d:'Click "Continue with Google" and pick your everyday Google account. No Google? Click "Continue with email", type your email, then go to your inbox and copy the 6-digit code it sent you.',
+     check:'You see an empty chat that asks how Claude can help you today.',
+     fix:'Code never arrived? Check Spam/Junk and Promotions. Still nothing after 2 minutes? Click "resend code". Using a work/school Google account that gets blocked? Use "Continue with email" with any personal email instead.'},
     {t:'Say hi',
-     d:'Send Claude a quick hello so you know everything works. Congrats - that is a working free account.'},
-    {t:'Upgrade to Pro - $20/month',
-     d:'Click your initials (bottom-left), then Settings, Billing, Upgrade, and choose Pro. Enter your card privately on your own screen - never while sharing to the projector. Cancel anytime in the same place.'},
+     d:'Type "hi" in the message box and press Enter. Seriously - just hi.',
+     check:'Claude replies. That means you officially have a working free account.',
+     fix:'No reply after 30 seconds? Refresh the page and try once more. Still stuck? Raise your hand.'},
+    {t:'Upgrade to Pro ($20/month)',
+     d:'Click the blue button below to jump straight to your billing settings, then click Upgrade and choose Pro. Enter your card privately on your own screen - never while your screen is on the projector. You can cancel anytime from this same page.',
+     link:{href:'https://claude.ai/settings/billing',label:'Open my billing settings \u2192'},
+     check:'The page shows your plan as "Pro".',
+     fix:'Button took you to a sign-in page? Sign in first (step 2), then click it again. Card declined? Some bank apps ask you to approve the charge - check your phone. Page still says Free after paying? Refresh the page.'},
     {t:'Run your first real prompt',
-     d:'Copy the prompt below this checklist, paste it into Claude, and see what it says about your week.'}
+     d:'Copy the prompt below this checklist, paste it into the Claude chat, and press Enter. Read what comes back - we will compare answers around the room.',
+     check:'Claude gave you 3 ways it can help your business this week.'}
   ];
   var CW_STEPS=[
-    {t:'Get the Claude desktop app',
-     d:'Download it at claude.com/download and sign in with the account you just made. Cowork is included in your Pro plan - no extra cost.'},
-    {t:'Open the Cowork tab',
-     d:'It is at the top of the app, between Chat and Code.'},
-    {t:'Add the practice folder',
-     d:'Click Add Folder and pick the Brand Content practice folder we shared with you. Claude can only see folders you grant - nothing else on your computer.'},
+    {t:'Download the Claude desktop app',
+     d:'Click the blue button below. Pick your computer type - Apple logo top-left of your screen means Mac, otherwise Windows. The file lands in your Downloads folder.',
+     link:{href:'https://claude.com/download',label:'Download the app \u2192'},
+     check:'A file is downloading (bottom of your browser, or check your Downloads folder).',
+     fix:'Not sure Mac or Windows? Look at your keyboard: a \u2318 command key means Mac. Download blocked? Click "keep" or "allow" if your browser asks.'},
+    {t:'Install and open it',
+     d:'Mac: open the downloaded file and drag Claude into Applications, then open it from Applications. Windows: open the downloaded file and click through the installer.',
+     check:'The Claude app opens and asks you to sign in.',
+     fix:'Mac says it "can\u2019t be opened"? Right-click the app and choose Open, then Open again. Warning about disk space? Cowork needs about 25GB free - empty your Trash/Recycle Bin or pair up with a neighbor for today and clean up tonight.'},
+    {t:'Sign in - SAME account as Part 1',
+     d:'Sign in with the exact same Google account or email you used on claude.ai. This is the #1 thing that trips people up - your Pro plan lives on that account.',
+     check:'The app opens to a chat screen, and you can see tabs at the top: Chat, Cowork, Code.',
+     fix:'No Cowork tab? First: are you signed into the right account? Click your initials (bottom-left) to check, sign out and back in if not. Right account but still no tab? Update the app: Claude menu \u2192 Check for Updates, then quit and reopen.'},
+    {t:'Open Cowork and add the practice folder',
+     d:'Click the Cowork tab at the top. Click "Add Folder" and pick the "Brand Content" practice folder we shared - if you saved it to your Desktop, look under Desktop; if you just downloaded it, look under Downloads (unzip it first by double-clicking). Click Allow.',
+     check:'Cowork shows "Brand Content" as a connected folder.',
+     fix:'Don\u2019t have the folder? Raise your hand and we\u2019ll share it again right now. Picked the wrong folder? No harm - remove it and click Add Folder again. Remember: Claude can only ever see folders you grant.'},
     {t:'Run the demo task',
-     d:'Copy the task below this checklist, paste it into Cowork, and approve the plan it shows you. Then watch it work.'}
+     d:'Copy the task below this checklist, paste it into the Cowork message box, and press Enter. Cowork will show you its plan first - read it, then click Approve.',
+     check:'Cowork is checking off steps, and when it finishes there is a real Excel file in your Brand Content folder.',
+     fix:'It asked a question instead of working? Just answer it in plain English. Looks frozen? Give it a minute - reading photos takes a moment. Result looks off? Tell it what to change ("make the captions shorter") and it keeps going.'}
   ];
   function renderSteps(listEl,steps,stateKey,progEl){
-    if(!Array.isArray(me[stateKey])) me[stateKey]=steps.map(function(){return false;});
+    if(!Array.isArray(me[stateKey])||me[stateKey].length!==steps.length) me[stateKey]=steps.map(function(){return false;});
     listEl.innerHTML='';
     function prog(){
       var done=me[stateKey].filter(Boolean).length;
@@ -347,8 +389,12 @@
     steps.forEach(function(s,i){
       var li=document.createElement('li');
       if(me[stateKey][i]) li.className='done';
-      li.innerHTML='<input type="checkbox" id="'+stateKey+i+'"'+(me[stateKey][i]?' checked':'')+'>'
-        +'<div><b><label for="'+stateKey+i+'" style="display:inline;font-size:inherit;margin:0;cursor:pointer">'+esc(s.t)+'</label></b><p>'+esc(s.d)+'</p></div>';
+      var inner='<div><b><label for="'+stateKey+i+'" style="display:inline;font-size:inherit;margin:0;cursor:pointer">'+esc(s.t)+'</label></b><p>'+esc(s.d)+'</p>';
+      if(s.link) inner+='<a class="steplink" href="'+esc(s.link.href)+'" target="_blank" rel="noopener">'+esc(s.link.label)+'</a>';
+      if(s.check) inner+='<p class="checkline">You\u2019ll know it worked: '+esc(s.check)+'</p>';
+      if(s.fix) inner+='<details class="fix"><summary>Something\u2019s off? Click here</summary><div>'+esc(s.fix)+'</div></details>';
+      inner+='</div>';
+      li.innerHTML='<input type="checkbox" id="'+stateKey+i+'"'+(me[stateKey][i]?' checked':'')+'>'+inner;
       li.querySelector('input').addEventListener('change',function(){
         me[stateKey][i]=this.checked; save();
         li.classList.toggle('done',this.checked); prog();
